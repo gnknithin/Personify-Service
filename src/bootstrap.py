@@ -1,5 +1,6 @@
 import logging
 import logging.config
+from abc import ABC
 from argparse import Namespace
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
@@ -10,17 +11,16 @@ from tornado.httpserver import HTTPServer
 
 
 @dataclass
-class ApplicationBootstrap():
-    configuration : Dict[Any,Any]
+class BaseBootstrap(ABC):
+    configuration: Dict[Any, Any]
     logger: logging.Logger
-    server: Optional[HTTPServer] = None
 
     def __init__(self, bootstrap_args: Namespace) -> None:
         self.__post_init__(
             configuration_args=bootstrap_args
         )
 
-    def __post_init__(self,configuration_args:Namespace) -> None:
+    def __post_init__(self, configuration_args: Namespace) -> None:
         self.configuration = self._configuration_initialization(
             args=configuration_args
         )
@@ -32,6 +32,15 @@ class ApplicationBootstrap():
         )
         return logging.getLogger(ApplicationConstants.LOGGER_NAME)
 
-
-    def _configuration_initialization(self, args: Namespace) -> Dict[Any,Any]:
+    def _configuration_initialization(self, args: Namespace) -> Dict[Any, Any]:
         return yaml.load(args.config.read(), Loader=yaml.SafeLoader)
+
+
+@dataclass
+class ApplicationBootstrap(BaseBootstrap):
+    configuration : Dict[Any,Any]
+    logger: logging.Logger
+    server: Optional[HTTPServer] = None
+
+    def __init__(self, bootstrap_args: Namespace) -> None:
+        super().__init__(bootstrap_args=bootstrap_args)
