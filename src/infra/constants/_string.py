@@ -29,13 +29,30 @@ class ConfigurationConstants():
     LOGGER = "logger"
     LOGGING = "logging"
 
+class HttpMethodConstants():
+    GET = "GET"
+    POST = "POST"
+    PUT = "PUT"
+    DELETE = "DELETE"
+    PATCH = "PATCH"
+
 
 class HttpConstants():
     HEADER_CONTENT_TYPE = "Content-Type"
     MIME_TYPE_JSON = "application/json"
-    OPERATIONS = ["GET", "POST", "PUT", "DELETE", "PATCH"]
+    OPERATIONS = [
+        HttpMethodConstants.GET,
+        HttpMethodConstants.POST,
+        HttpMethodConstants.PUT,
+        HttpMethodConstants.DELETE,
+        HttpMethodConstants.PATCH
+        ]
     READONLY_OPERATIONS = ["GET", "HEAD", "OPTIONS"]
-    WRITE_OPERATIONS = ["POST", "PUT", "PATCH"]
+    WRITE_OPERATIONS = [
+        HttpMethodConstants.POST,
+        HttpMethodConstants.PUT,
+        HttpMethodConstants.PATCH
+    ]
 
 
 class MessagesConstants():
@@ -70,7 +87,7 @@ class SwaggerConstants():
     OPEN_API_VERSION = "3.0.2"
     CURRENT_MAJOR_API_VERSION = "v1"
     URL_PREFIX = "/api/docs"
-    TITLE = "Personify API"
-    DESCRIPTION = "A Personify API for User"
+    TITLE = "Personify Service API"
+    DESCRIPTION = "A Personify Service API for User"
     AUTHOR_NAME = "Nithin"
     AUTHOR_EMAIL = "gnknithin@gmail.com"

@@ -12,8 +12,8 @@ from interfaces.http.tornado.schemas.base_schema import (
 )
 from marshmallow.exceptions import ValidationError
 
-from tests.base_tests import BaseUnitTest
-from tests.core_seed import BadRequestSchemaSeed, BaseSuccessSchemaSeed
+from tests.utils.base_tests import BaseUnitTest
+from tests.utils.core_seed import BadRequestSchemaSeed, BaseSuccessSchemaSeed
 
 
 class TestBaseSuccessSchema(BaseUnitTest):
