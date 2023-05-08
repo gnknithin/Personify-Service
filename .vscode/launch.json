@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Run Tornado Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/server.py",
+            "args": [
+                "-p",
+                "8888",
+                "-c",
+                "./configs/development.yaml",
+                "-d"
+            ],
+            "console": "integratedTerminal"
+        },
+        // TODO Dynamic Debugging Configuration
+    ]
+}
