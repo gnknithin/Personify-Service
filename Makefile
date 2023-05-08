@@ -13,7 +13,7 @@ install-testing-req:
 install-linting-req:
 	pip3 install autopep8 mypy ruff
 install-req:
-	pip3 install aiotask-context apispec apispec-webframeworks logfmt marshmallow PyYAML swagger-ui-py tornado
+	pip3 install -r requirements.txt
 upgrade-pip:
 	pip3 install --upgrade pip
 venv-remove:
@@ -28,3 +28,4 @@ clean-pycache:
 	rm -Rf ./.pytest_cache; rm -Rf ./**/__pycache__; rm -Rf ./**/**/__pycache__; rm -Rf ./**/**/**/__pycache__; rm -Rf ./**/**/**/**/__pycache__;rm -Rf ./**/**/**/**/**/__pycache__;rm -Rf ./**/**/**/**/**/**/__pycache__;
 clean: clean-package clean-pycache
 install-dev-req: upgrade-pip install-linting-req install-testing-req install-req
+install-prod-req: upgrade-pip install-req

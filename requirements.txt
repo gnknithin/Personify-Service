@@ -1,0 +1,8 @@
+aiotask-context
+apispec
+apispec-webframeworks
+logfmt
+marshmallow
+PyYAML
+swagger-ui-py
+tornado
