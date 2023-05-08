@@ -71,7 +71,7 @@ class MainApplication(Application):
         self.handlers: List[Any] = list()
         self.handlers.append(
             (
-                HandlerConstants.ROOT,
+                HandlerConstants.HEALTH_URI,
                 HealthHandler,
                 dict(logger=bootstrap.logger, schema_method_validators=dict())
             )

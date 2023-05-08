@@ -16,7 +16,7 @@ class TestHealthHandler(MainApplicationTestSetup):
         _headers[HttpConstants.HEADER_CONTENT_TYPE] = HttpConstants.MIME_TYPE_JSON
         # Act
         response = self.fetch(
-            path=HandlerConstants.ROOT,
+            path=HandlerConstants.HEALTH_URI,
             method=HttpMethodConstants.GET,
             headers={
                 HttpConstants.HEADER_CONTENT_TYPE: HttpConstants.MIME_TYPE_JSON
