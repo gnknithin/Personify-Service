@@ -9,7 +9,7 @@ class ArgumentParser():
     ) -> argparse.Namespace:
         inputs_parser = argparse.ArgumentParser(
             prog='Personify Server',
-            description='Run Personify Service Server'
+            description='Run Personify Service'
         )
 
         _ = inputs_parser.add_argument(

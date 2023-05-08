@@ -42,7 +42,8 @@ class BaseRequestHandler(RequestHandler):
         _load_context[
             GenericConstants.IP
         ] = self.request.remote_ip
-        Logger.set_log_context(_load_context)
+
+        Logger.set_log_context(**_load_context)
 
         Logger.log(
             self.logger,

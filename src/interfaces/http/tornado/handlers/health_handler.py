@@ -51,7 +51,7 @@ class HealthHandler(BaseRequestHandler):
                             ServerErrorSchema
         """
         _info : Dict[Any,Any] = dict()
-        _info[GenericConstants.SUCCESS] = False
+        _info[GenericConstants.SUCCESS] = True
         _loaded: OrderedDict[Any,Any] = BaseSuccessSchema().load(data=_info)
         self.build_response(
             status=HTTPStatus.OK,
