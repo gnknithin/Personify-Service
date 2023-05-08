@@ -1,3 +1,5 @@
+run-server:
+	python3 src/server.py -p 8888 -c ./configs/development.yaml -d
 ruff:
 	ruff check .
 ruff-fix:
