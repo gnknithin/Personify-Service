@@ -1,9 +1,15 @@
+pytest-coverage:
+	pytest -vv --cov --cov-report=term-missing
+pytest-collect:
+	pytest --collect-only
 run-server:
 	python3 src/server.py -p 8888 -c ./configs/development.yaml -d
 ruff:
 	ruff check .
 ruff-fix:
 	ruff check --fix .
+install-testing-req:
+	pip3 install pytest pytest-asyncio pytest-cov
 install-linting-req:
 	pip3 install autopep8 mypy ruff
 install-req:
@@ -21,4 +27,4 @@ clean-package:
 clean-pycache:
 	rm -Rf ./.pytest_cache; rm -Rf ./**/__pycache__; rm -Rf ./**/**/__pycache__; rm -Rf ./**/**/**/__pycache__; rm -Rf ./**/**/**/**/__pycache__;rm -Rf ./**/**/**/**/**/__pycache__;rm -Rf ./**/**/**/**/**/**/__pycache__;
 clean: clean-package clean-pycache
-install-dev-req: upgrade-pip install-linting-req install-req
+install-dev-req: upgrade-pip install-linting-req install-testing-req install-req
