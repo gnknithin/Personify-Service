@@ -2,7 +2,7 @@ import logging
 from http import HTTPStatus
 from typing import Any, Dict, List
 
-from bootstrap import ApplicationBootstrap
+from bootstrap import ApplicationBootstrap, BaseBootstrap
 from infra.constants._string import (
     ApplicationConstants,
     ConfigurationConstants,
@@ -44,7 +44,7 @@ def log_function(handler: RequestHandler) -> None:
 class MainApplication(Application):
     def __init__(
         self,
-        bootstrap: ApplicationBootstrap,
+        bootstrap: BaseBootstrap,
         debug: bool
     ) -> None:
 

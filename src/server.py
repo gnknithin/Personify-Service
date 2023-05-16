@@ -11,21 +11,17 @@ from interfaces.http.tornado.tornado_app import MainApplication
 
 
 def main(
-    args: Namespace = ArgumentParser.parse_arguments()  # TODO Need Argument-Parser
+    args: Namespace = ArgumentParser.parse_arguments()
 ):
-    # TODO Need Logger to be Initialized
     _bootstrap = ApplicationBootstrap(bootstrap_args=args)
-    # TODO Need MainApplication
     _app = MainApplication(
         bootstrap=_bootstrap,
         debug=args.debug
     )
-    # TODO Need Swagger Initialization
     SwaggerMiddleware.initialize(
         port=args.port,
         app=_app
     )
-    # TODO Need Abstract-Loop
     _loop = MainIOLoop.setup()
     Logger.log(
         _bootstrap.logger,
@@ -34,7 +30,6 @@ def main(
         service_name=ApplicationConstants.SERVICE_NAME,
         port=args.port
     )
-    # TODO Need Loop-Create-Task
     _loop.create_task(
         MainApplication.run_server(
             app_bootstrap=_bootstrap,
