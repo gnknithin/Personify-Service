@@ -4,6 +4,8 @@ pytest-collect:
 	pytest --collect-only
 run-server:
 	python3 src/server.py -p 8888 -c ./configs/development.yaml -d
+mypy:
+	mypy .
 ruff:
 	ruff check .
 ruff-fix:
