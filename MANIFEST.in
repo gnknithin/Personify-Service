@@ -1,0 +1,20 @@
+include Dockerfile
+include Makefile
+recursive-include src *.py
+
+# Include the README
+include *.md
+
+# Include the license file
+include license
+
+# Include setup.py
+include setup.py
+
+# Include the config files
+recursive-include configs *.yml
+recursive-include configs *.yaml
+
+exclude .coveragerc
+exclude requirements.txt
+exclude .vscode/*

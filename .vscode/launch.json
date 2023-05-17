@@ -1,0 +1,54 @@
+{
+    "configurations": [
+        {
+            "name": "Run Production Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/server.py",
+            "args": [
+                "-p",
+                "8888",
+                "-c",
+                "./configs/production.yaml"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Run Development Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/server.py",
+            "args": [
+                "-p",
+                "8888",
+                "-c",
+                "./configs/development.yaml",
+                "-d"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Remote Attach",
+            "type": "python",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "."
+                }
+            ],
+            "justMyCode": true
+        },
+        {
+            "name": "Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        }
+    ]
+}
