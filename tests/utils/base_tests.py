@@ -6,6 +6,7 @@ from bootstrap import ApplicationBootstrap
 from infra.parser.argument_parser import ArgumentParser
 from interfaces.http.tornado.tornado_app import MainApplication
 from tornado.ioloop import IOLoop
+from tornado.platform.asyncio import AsyncIOLoop
 from tornado.testing import AsyncHTTPTestCase
 
 from tests.utils.fake_bootstrap import (
@@ -60,7 +61,7 @@ class MainApplicationTestSetup(AsyncHTTPTestCase):
         )
         return MainApplication(bootstrap=_bootstrap,debug=True)
 
-    def get_new_ioloop(self) -> IOLoop:
-        instance = IOLoop.current()
+    def get_new_ioloop(self)->IOLoop:
+        instance = AsyncIOLoop()
         instance.asyncio_loop.set_task_factory(context.task_factory)
         return instance

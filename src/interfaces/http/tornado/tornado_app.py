@@ -73,7 +73,10 @@ class MainApplication(Application):
             (
                 HandlerConstants.HEALTH_URI,
                 HealthHandler,
-                dict(logger=bootstrap.logger, schema_method_validators=dict())
+                dict(
+            logger=bootstrap.logger,
+            schema_method_validators=dict()
+            )
             )
         )
 

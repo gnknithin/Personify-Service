@@ -51,7 +51,8 @@ def main(
             message=GenericConstants.SHUTTING_DOWN,
             service_name=ApplicationConstants.SERVICE_NAME
         )
-        _bootstrap.server.stop()
+        if _bootstrap.server is not None:
+            _bootstrap.server.stop()
         _loop.run_until_complete(_loop.shutdown_asyncgens())
 
         _loop.close()

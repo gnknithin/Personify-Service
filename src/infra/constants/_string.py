@@ -6,6 +6,7 @@ class ApplicationConstants():
 class GenericConstants():
     UTF8 = "UTF-8"
     CHARSET = "charset"
+    ERROR= "error"
     ERRORS = "errors"
     SUCCESS = "success"
     DATA = "data"
