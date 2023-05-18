@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  personify-service:
+    image: personify-service
+    build:
+      context: .
+      dockerfile: ./Dockerfile.prod
+    expose:
+      - 8888
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - personify-service
