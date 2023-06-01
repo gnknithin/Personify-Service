@@ -50,9 +50,10 @@ class HealthHandler(BaseRequestHandler):
                         schema:
                             ServerErrorSchema
         """
-        _info : Dict[Any,Any] = dict()
+        _info: Dict[Any, Any] = dict()
         _info[GenericConstants.SUCCESS] = True
-        _loaded: OrderedDict[Any,Any] = BaseSuccessSchema().load(data=_info)
+        _loaded: OrderedDict[Any, Any] = BaseSuccessSchema().load(data=_info)
+        # TODO - Return Status OK No Data required
         self.build_response(
             status=HTTPStatus.OK,
             data=_loaded
