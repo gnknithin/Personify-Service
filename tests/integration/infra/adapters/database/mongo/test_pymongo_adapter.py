@@ -1,9 +1,7 @@
 from typing import Dict, List
 
 from bootstrap import ApplicationBootstrap
-from bson import ObjectId
 from infra.generator.identity import IdentityGenerator
-from pymongo.results import DeleteResult, InsertManyResult, InsertOneResult
 
 from tests.utils.base_tests import BaseIntegrationTest
 from tests.utils.core_seed import SampleTestSeed
@@ -26,7 +24,7 @@ class TestMongoAdapter(BaseIntegrationTest):
         return SampleTestSeed.create_seed(size=size)
 
     def __sample_database_and_test_collection(self):
-        return ('sample', 'test')
+        return ('sample', 'adapter')
 
     def test_should_insert_find_update_and_delete_one_successfully(
         self,
@@ -44,14 +42,12 @@ class TestMongoAdapter(BaseIntegrationTest):
         )
         # Assert
         assert insert_one_sut is not None
-        assert isinstance(insert_one_sut, InsertOneResult)
-        assert insert_one_sut.acknowledged is True
-        assert isinstance(insert_one_sut.inserted_id, ObjectId)
+        assert isinstance(insert_one_sut, str)
         # Act-Find-One
         find_one_sut = _mongo_adapter.find_one(
             db_name=_db,
             collection_name=_collection,
-            key=insert_one_sut.inserted_id
+            key=insert_one_sut
         )
         assert find_one_sut is not None
         assert isinstance(find_one_sut, Dict)
@@ -59,7 +55,7 @@ class TestMongoAdapter(BaseIntegrationTest):
         find_one_and_update_sut = _mongo_adapter.find_one_and_update(
             db_name=_db,
             collection_name=_collection,
-            key=insert_one_sut.inserted_id,
+            key=insert_one_sut,
             data=_seed_data[1]
         )
         assert find_one_and_update_sut is not None
@@ -68,12 +64,11 @@ class TestMongoAdapter(BaseIntegrationTest):
         delete_one_sut = _mongo_adapter.delete_one(
             db_name=_db,
             collection_name=_collection,
-            key=insert_one_sut.inserted_id
+            key=insert_one_sut
         )
         assert delete_one_sut is not None
-        assert isinstance(delete_one_sut, DeleteResult)
-        assert delete_one_sut.acknowledged is True
-        assert delete_one_sut.deleted_count == 1
+        assert isinstance(delete_one_sut, bool)
+        assert delete_one_sut is True
 
     def test_should_find_one_and_return_none_successfully(
         self,
@@ -108,9 +103,8 @@ class TestMongoAdapter(BaseIntegrationTest):
         )
         # Assert
         assert delete_one_sut is not None
-        assert isinstance(delete_one_sut, DeleteResult)
-        assert delete_one_sut.acknowledged is True
-        assert delete_one_sut.deleted_count == 0
+        assert isinstance(delete_one_sut, bool)
+        assert delete_one_sut is False
 
     def test_should_delete_one_and_return_none_successfully(
         self,
@@ -127,9 +121,8 @@ class TestMongoAdapter(BaseIntegrationTest):
         )
         # Assert
         assert delete_one_sut is not None
-        assert isinstance(delete_one_sut, DeleteResult)
-        assert delete_one_sut.acknowledged is True
-        assert delete_one_sut.deleted_count == 0
+        assert isinstance(delete_one_sut, bool)
+        assert delete_one_sut is False
 
     def test_should_find_one_and_update_return_none_successfully(
         self,
@@ -166,10 +159,8 @@ class TestMongoAdapter(BaseIntegrationTest):
         )
         # Assert
         assert insert_many_sut is not None
-        assert isinstance(insert_many_sut, InsertManyResult)
-        assert insert_many_sut.acknowledged is True
-        assert isinstance(insert_many_sut.inserted_ids, List)
-        assert len(insert_many_sut.inserted_ids) == _seed_size
+        assert isinstance(insert_many_sut, list)
+        assert len(insert_many_sut) == _seed_size
         # Act-Count
         count_sut = _mongo_adapter.count(
             db_name=_db,
@@ -192,10 +183,9 @@ class TestMongoAdapter(BaseIntegrationTest):
         delete_many_sut = _mongo_adapter.delete_many(
             db_name=_db,
             collection_name=_collection,
-            keys=insert_many_sut.inserted_ids
+            keys=insert_many_sut
         )
         # Assert
         assert delete_many_sut is not None
-        assert isinstance(delete_many_sut, DeleteResult)
-        assert delete_many_sut.acknowledged is True
-        assert delete_many_sut.deleted_count == _seed_size
+        assert isinstance(delete_many_sut, bool)
+        assert delete_many_sut is True

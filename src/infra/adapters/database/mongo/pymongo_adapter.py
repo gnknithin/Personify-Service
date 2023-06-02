@@ -10,7 +10,6 @@ from infra.validators.database.mongo_connection_string import (
     MongoConnectionStringValidator,
 )
 from pymongo import MongoClient, ReturnDocument
-from pymongo.results import DeleteResult, InsertManyResult, InsertOneResult
 
 
 class PyMongoAdapter(BaseDatabaseAdapter):
@@ -52,7 +51,7 @@ class PyMongoAdapter(BaseDatabaseAdapter):
         )
 
     @property
-    def client(self):
+    def client(self) -> Any:
         return self._client
 
     def check_availability(self) -> bool:
@@ -76,23 +75,23 @@ class PyMongoAdapter(BaseDatabaseAdapter):
 
     def insert_one(
         self, db_name: str, collection_name: str, data: Dict[Any, Any]
-    ) -> Union[InsertOneResult, None]:
+    ) -> Union[str, None]:
         collection = self._client[db_name][collection_name]
         with self._client.start_session() as session:
             result = collection.insert_one(
                 document=data,
                 session=session
             )
-        return result
+        return str(result.inserted_id) if result.acknowledged else None
 
     def delete_one(
         self, db_name: str, collection_name: str, key: str
-    ) -> Union[DeleteResult, None]:
+    ) -> bool:
         collection = self._client[db_name][collection_name]
         _apply_filter = {'_id': self.__string_to_object_id(key)}
         with self._client.start_session() as session:
             result = collection.delete_one(_apply_filter, session=session)
-        return result
+        return result.acknowledged and result.deleted_count == 1
 
     def find_one(
         self, db_name: str, collection_name: str, key: str
@@ -128,10 +127,14 @@ class PyMongoAdapter(BaseDatabaseAdapter):
         db_name: str,
         collection_name: str,
         data: List[Dict[Any, Any]]
-    ) -> InsertManyResult:
+    ) -> List[str]:
+        result: List[str] = list()
         collection = self._client[db_name][collection_name]
         with self._client.start_session() as session:
-            result = collection.insert_many(data, session=session)
+            _result = collection.insert_many(data, session=session)
+            if _result.acknowledged:
+                for each in _result.inserted_ids:
+                    result.append(str(each))
         return result
 
     def find(
@@ -153,16 +156,16 @@ class PyMongoAdapter(BaseDatabaseAdapter):
         db_name: str,
         collection_name: str,
         keys: List[str],
-    ) -> DeleteResult:
+    ) -> bool:
         collection = self._client[db_name][collection_name]
-        _apply_filter = {'_id': {'$in': keys}}
+        _apply_filter = {'_id': {'$in': [ObjectId(each) for each in keys]}}
         with self._client.start_session() as session:
             result = collection.delete_many(
                 filter=_apply_filter,
                 session=session
             )
 
-        return result
+        return result.acknowledged and result.deleted_count == len(keys)
 
     def count(self, db_name: str, collection_name: str) -> int:
         collection = self._client[db_name][collection_name]

@@ -103,6 +103,22 @@ class BadRequestSchemaSeed():
         return _data
 
 
+class BaseSeed():
+    @staticmethod
+    def create_seed(size: int) -> List[Dict[Any, Any]]:
+        _data: List[Dict[Any, Any]] = InitializeCoreSeed.get_list()
+        for _ in range(size):
+            _d: Dict[Any, Any] = InitializeCoreSeed.get_dict()
+            _d[
+                FieldNameConstants.CREATED_AT
+            ] = InitializeCoreSeed.get_datetime_utcnow_isoformat()
+            _d[
+                FieldNameConstants.UPDATED_AT
+            ] = InitializeCoreSeed.get_datetime_utcnow_isoformat()
+            _data.append(_d)
+        return _data
+
+
 class BaseIdSeed():
     @staticmethod
     def create_seed(size: int) -> List[Dict[Any, Any]]:

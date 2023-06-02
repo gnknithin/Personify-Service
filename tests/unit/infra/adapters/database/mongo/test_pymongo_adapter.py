@@ -17,18 +17,20 @@ class TestMongoAdapter(BaseUnitTest):
                 "__init__() missing 1 required positional argument: 'connection_string'"
             )
 
-    def test_should_return_an_instance_of_mongo_adapter(self):
-        # Arrange
+    def _get_dummy_connection_string(self) -> str:
         host = 'localhost'
         username = 'fakecustomer'
         password = '123456'
         database = 'fake_database'
         driver = "mongodb"
-        connection_string = f"{driver}://{username}:{password}@{host}/{database}"
+        return f"{driver}://{username}:{password}@{host}/{database}"
+
+    def test_should_return_an_instance_of_mongo_adapter(self):
+        # Arrange
         # Act
         sut = PyMongoAdapter(
             logger=logging.Logger,
-            connection_string=connection_string
+            connection_string=self._get_dummy_connection_string()
         )
         # Assert
         assert isinstance(sut, PyMongoAdapter)
