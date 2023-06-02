@@ -20,7 +20,7 @@ jobs:
       - name: Install Requirements
         run: pip install -r requirements.txt
       - name: Install required packages along with Pytest
-        run: pip install pytest pytest-cov pytest-asyncio
+        run: pip install pytest pytest-cov pytest-asyncio pytest-dotenv
       - name: Running tests with Code Coverage
         run: pytest -vv --junitxml=coverage.xml --cov --cov-report=term-missing
       - name: Coveralls

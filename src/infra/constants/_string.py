@@ -6,7 +6,7 @@ class ApplicationConstants():
 class GenericConstants():
     UTF8 = "UTF-8"
     CHARSET = "charset"
-    ERROR= "error"
+    ERROR = "error"
     ERRORS = "errors"
     SUCCESS = "success"
     DATA = "data"
@@ -30,6 +30,7 @@ class ConfigurationConstants():
     LOGGER = "logger"
     LOGGING = "logging"
 
+
 class HttpMethodConstants():
     GET = "GET"
     POST = "POST"
@@ -47,7 +48,7 @@ class HttpConstants():
         HttpMethodConstants.PUT,
         HttpMethodConstants.DELETE,
         HttpMethodConstants.PATCH
-        ]
+    ]
     READONLY_OPERATIONS = ["GET", "HEAD", "OPTIONS"]
     WRITE_OPERATIONS = [
         HttpMethodConstants.POST,
@@ -92,3 +93,51 @@ class SwaggerConstants():
     DESCRIPTION = "A Personify Service API for User"
     AUTHOR_NAME = "Nithin"
     AUTHOR_EMAIL = "gnknithin@gmail.com"
+
+
+class RegExPatternConstants():
+    FQDN = r'(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{0,62}[a-zA-Z0-9]\.)+[a-zA-Z]{2,63}$)'
+    # ruff: noqa: E501
+    MONGO = r'^(mongodb(\+srv)?:((?:\/{2})?)((\w+?):(\w+?)@|:?@?))(\S+?):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$'
+    # ruff: noqa: E501
+    POSTGRES = r'^(postgresql(\+asyncpg))?:((?:\/{2})?)((\w+?):(\w+?)(@?)(\S+?)):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$'
+
+
+class MongoConstants():
+    ENVVAR_MONGODB_HOST = "MONGODB_HOST"
+    ENVVAR_MONGODB_USERNAME = "MONGODB_USERNAME"
+    ENVVAR_MONGODB_PASSWORD = "MONGODB_PASSWORD"
+    ENVVAR_MONGODB_DATABASE = "MONGODB_DATABASE"
+
+
+class FieldNameConstants():
+    ISO = "iso"
+    CREATED_AT = "created_at"
+    UPDATED_AT = "updated_at"
+    OBJECT_ID = "_id"
+    FILTER_BY = "filter_by"
+    SKIP_TO = "skip_to"
+    LIMIT_BY = "limit_by"
+    USER_ID = "user_id"
+    FULL_NAME = "full_name"
+    GENDER = "gender"
+    DATE_OF_BIRTH = "date_of_birth"
+    BIRTHDAY = "birthday"
+    EMAIL = "email"
+    PASSWORD = "password"
+    MOBILE = "mobile"
+    ACTIVE = "active"
+
+
+class MongoDBKeywordConstants():
+    DOCUMENT = "document"
+    DOCUMENTS = "documents"
+    SESSION = "session"
+    FILTER = "filter"
+    SKIP = "skip"
+    LIMIT = "limit"
+    UPDATE = "update"
+    UPSERT = "upsert"
+    RETURN_DOCUMENT = "return_document"
+    OPERATOR_SET = "$set"
+    OPERATOR_IN = "$in"
