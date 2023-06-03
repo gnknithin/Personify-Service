@@ -6,9 +6,4 @@ TEntity = TypeVar(
     "TEntity", bound=None, covariant=False,
     contravariant=False)  # Can be anything
 
-TEntityModel = TypeVar(
-    "TEntityModel",
-    bound=BaseModel,
-    covariant=False,
-    contravariant=False
-)
+TEntityModel = TypeVar("TEntityModel", bound=BaseModel)

@@ -2,6 +2,7 @@ import logging
 from typing import Any, Dict, List, Optional, Union
 
 from bson import ObjectId
+from bson.binary import UuidRepresentation
 from infra.adapters.database.base_database_adapter import BaseDatabaseAdapter
 from infra.builders.database.mongo_connection_string import (
     MongoDbConnectionStringBuilder,
@@ -23,7 +24,9 @@ class PyMongoAdapter(BaseDatabaseAdapter):
         '''
         super().__init__(logger=logger)
         self._connection_string = connection_string
-        self._client: Any = MongoClient(self._connection_string)
+        self._client: Any = MongoClient(
+            self._connection_string, uuidRepresentation='standard'
+        )
 
     @classmethod
     def from_connection_string(
@@ -142,8 +145,8 @@ class PyMongoAdapter(BaseDatabaseAdapter):
             db_name: str,
             collection_name: str,
             filter_by: Optional[Dict[Any, Any]] = None,
-            skip_to: int = 0,
-            limit_by: int = 0
+            skip_to: Optional[int] = 0,
+            limit_by: Optional[int] = 0
     ) -> List[Dict[Any, Any]]:
         collection = self._client[db_name][collection_name]
         result = collection.find(

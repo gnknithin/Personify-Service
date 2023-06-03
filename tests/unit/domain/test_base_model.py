@@ -31,10 +31,6 @@ class TestBaseModel(BaseUnitTest):
         # Assert
         assert sut is not None
         assert isinstance(sut, dict)
-        assert FieldNameConstants.CREATED_AT in sut
-        assert isinstance(sut[FieldNameConstants.CREATED_AT], str)
-        assert FieldNameConstants.UPDATED_AT in sut
-        assert isinstance(sut[FieldNameConstants.UPDATED_AT], str)
 
     def test_should_load_and_return_successfuly(self):
         # Arrange

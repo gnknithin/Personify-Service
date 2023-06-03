@@ -1,6 +1,9 @@
 class ApplicationConstants():
     SERVICE_NAME = "personify-service"
     LOGGER_NAME = "personify-service"
+    DATABSE_NAME_PERSONIFY = 'personify'
+    TABLE_NAME_USERS = 'users'
+    COLLECTION_NAME_CONTACTS = 'contacts'
 
 
 class GenericConstants():
@@ -119,6 +122,7 @@ class FieldNameConstants():
     SKIP_TO = "skip_to"
     LIMIT_BY = "limit_by"
     USER_ID = "user_id"
+    CONTACT_ID = "contact_id"
     FULL_NAME = "full_name"
     GENDER = "gender"
     DATE_OF_BIRTH = "date_of_birth"

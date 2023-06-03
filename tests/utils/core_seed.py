@@ -126,14 +126,14 @@ class BaseIdSeed():
         for _ in range(size):
             _d: Dict[Any, Any] = InitializeCoreSeed.get_dict()
             _d[
+                FieldNameConstants.OBJECT_ID
+            ] = IdentityGenerator.get_random_id_of_object_length()
+            _d[
                 FieldNameConstants.CREATED_AT
             ] = InitializeCoreSeed.get_datetime_utcnow_isoformat()
             _d[
                 FieldNameConstants.UPDATED_AT
             ] = InitializeCoreSeed.get_datetime_utcnow_isoformat()
-            _d[
-                FieldNameConstants.OBJECT_ID
-            ] = IdentityGenerator.get_random_id_of_object_length()
             _data.append(_d)
         return _data
 
@@ -145,25 +145,20 @@ class ContactSeed():
         for each in range(size):
             _d: Dict[Any, Any] = InitializeCoreSeed.get_dict()
             _d[
+                FieldNameConstants.OBJECT_ID
+            ] = IdentityGenerator.get_random_id_of_object_length()
+            _d[
                 FieldNameConstants.CREATED_AT
             ] = InitializeCoreSeed.get_datetime_utcnow_isoformat()
             _d[
                 FieldNameConstants.UPDATED_AT
             ] = InitializeCoreSeed.get_datetime_utcnow_isoformat()
             _d[
-                FieldNameConstants.OBJECT_ID
-            ] = IdentityGenerator.get_random_id_of_object_length()
-            _d[
                 FieldNameConstants.USER_ID
-            ] = IdentityGenerator.get_random_id_of_object_length()
+            ] = IdentityGenerator.get_random_uuid4()
             _d[
                 FieldNameConstants.FULL_NAME
             ] = InitializeCoreSeed.get_full_name(each)
-
-            _d[
-                FieldNameConstants.GENDER
-            ] = InitializeCoreSeed.get_random_gender()
-
             _d[
                 FieldNameConstants.BIRTHDAY
             ] = InitializeCoreSeed.get_date_isoformat()

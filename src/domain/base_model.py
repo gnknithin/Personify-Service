@@ -28,7 +28,7 @@ class BaseModel(Schema):
         return in_data
 
     @pre_dump
-    def convert_id_to_object_id(
+    def remove_id_of_type_string(
         self, in_data: Dict[Any, Any], **kwargs: Dict[Any, Any]
     ) -> Dict[Any, Any]:
         if (
@@ -41,18 +41,18 @@ class BaseModel(Schema):
             ]
         return in_data
 
-    @pre_dump
-    def check_created_at(
-        self, in_data: Dict[Any, Any], **kwargs: Dict[Any, Any]
-    ) -> Dict[Any, Any]:
-        if FieldNameConstants.CREATED_AT not in in_data:
-            in_data[FieldNameConstants.CREATED_AT] = datetime.utcnow()
-        return in_data
+    # @pre_dump
+    # def check_created_at(
+    #     self, in_data: Dict[Any, Any], **kwargs: Dict[Any, Any]
+    # ) -> Dict[Any, Any]:
+    #     if (FieldNameConstants.CREATED_AT not in in_data):
+    #         in_data[FieldNameConstants.CREATED_AT] = datetime.utcnow()
+    #     return in_data
 
-    @pre_dump
-    def check_updated_at(
-        self, in_data: Dict[Any, Any], **kwargs: Dict[Any, Any]
-    ) -> Dict[Any, Any]:
-        if FieldNameConstants.UPDATED_AT not in in_data:
-            in_data[FieldNameConstants.UPDATED_AT] = datetime.utcnow()
-        return in_data
+    # @pre_dump
+    # def check_updated_at(
+    #     self, in_data: Dict[Any, Any], **kwargs: Dict[Any, Any]
+    # ) -> Dict[Any, Any]:
+    #     if FieldNameConstants.UPDATED_AT not in in_data:
+    #         in_data[FieldNameConstants.UPDATED_AT] = datetime.utcnow()
+    #     return in_data

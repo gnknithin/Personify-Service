@@ -1,12 +1,12 @@
 import logging
-from typing import Any, Dict, List, Optional, Type, Union
+from typing import Any, Dict, Generic, List, Optional, Type, Union
 
 from infra.adapters.database.mongo.pymongo_adapter import PyMongoAdapter
 from infra.constants._type import TEntityModel
 from infra.data.repositories.abstract_repository import AbstractRepository
 
 
-class MongoRepository(AbstractRepository):
+class MongoRepository(AbstractRepository, Generic[TEntityModel]):
     '''
     A Base Class for all MongoDB Repositories Using PyMongo Package
     '''
@@ -17,10 +17,11 @@ class MongoRepository(AbstractRepository):
         db_adapter: PyMongoAdapter,
         database_name: str,
         collection_name: str,
-        model_type: Type[TEntityModel]  # TODO Remove
+        model_type: Type[TEntityModel]
     ) -> None:
-        super().__init__(logger=logger, model_type=model_type)
+        super().__init__(logger=logger)
         self._context = db_adapter
+        self._model_type = model_type
         self._database_name = database_name
         self._collection_name = collection_name
 
@@ -51,8 +52,8 @@ class MongoRepository(AbstractRepository):
     def get(
         self,
         filter_by: Optional[Dict[Any, Any]] = None,
-        skip_to: int = 0,
-        limit_by: int = 0
+        skip_to: Optional[int] = 0,
+        limit_by: Optional[int] = 0
     ) -> List[TEntityModel]:
         _result = self.context.find(
             db_name=self.database, collection_name=self.collection,
