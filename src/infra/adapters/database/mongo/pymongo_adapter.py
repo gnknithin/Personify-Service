@@ -2,7 +2,6 @@ import logging
 from typing import Any, Dict, List, Optional, Union
 
 from bson import ObjectId
-from bson.binary import UuidRepresentation
 from infra.adapters.database.base_database_adapter import BaseDatabaseAdapter
 from infra.builders.database.mongo_connection_string import (
     MongoDbConnectionStringBuilder,

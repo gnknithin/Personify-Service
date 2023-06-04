@@ -6,17 +6,18 @@ class BaseConnectionStringBuilder(ABC):
     '''
     Base connection string builder
     '''
+
     def __init__(
         self,
         host: Any,
         username: Optional[Any],
         password: Optional[Any],
-        db_name: Optional[Any],
+        database_name: Optional[Any],
     ) -> None:
         self.__host = host
         self.__username = username
         self.__password = password
-        self.__db_name = db_name
+        self.__db_name = database_name
 
         super().__init__()
 

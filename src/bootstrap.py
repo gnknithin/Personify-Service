@@ -9,10 +9,12 @@ from typing import Any, Dict, Optional
 import dotenv
 import yaml
 from infra.adapters.database.mongo.pymongo_adapter import PyMongoAdapter
+from infra.adapters.database.postgres.postgres_adapter import PostgresAdapter
 from infra.constants._string import (
     ApplicationConstants,
     ConfigurationConstants,
     MongoConstants,
+    PostgresConstants,
 )
 from tornado.httpserver import HTTPServer
 
@@ -47,11 +49,13 @@ class BaseBootstrap(ABC):
 class ApplicationBootstrap(BaseBootstrap):
     configuration: Dict[Any, Any]
     logger: logging.Logger
+    postgres_adapter: PostgresAdapter
     mongo_adapter: PyMongoAdapter
     server: Optional[HTTPServer] = None
 
     def __init__(self, bootstrap_args: Namespace) -> None:
         super().__init__(bootstrap_args=bootstrap_args)
+        self._postgres_initialization()
         self._mongo_initialization()
 
     def _mongo_initialization(self) -> None:
@@ -72,7 +76,7 @@ class ApplicationBootstrap(BaseBootstrap):
             username=_username,
             password=_password,
             host=_host,
-            db_name=_db_name
+            database_name=_db_name
         )
         self.mongo_adapter = PyMongoAdapter.from_dict(
             self.logger,
@@ -91,4 +95,45 @@ class ApplicationBootstrap(BaseBootstrap):
             )
             raise ConnectionError(
                 f'Could not connect to the mongo database: {_host}'
+            )
+
+    def _postgres_initialization(self) -> None:
+        dotenv.load_dotenv(dotenv.find_dotenv())
+        _host = os.environ.get(
+            PostgresConstants.ENVVAR_POSTGRES_HOST,
+        )
+        _username = os.environ.get(
+            PostgresConstants.ENVVAR_POSTGRES_USERNAME
+        )
+        _password = os.environ.get(
+            PostgresConstants.ENVVAR_POSTGRES_PASSWORD, None
+        )
+        _db_name = os.environ.get(
+            PostgresConstants.ENVVAR_POSTGRES_DATABASE
+        )
+        postgres_credentials = dict(
+            username=_username,
+            password=_password,
+            host=_host,
+            database_name=_db_name
+        )
+        self.postgres_adapter = PostgresAdapter.from_dict(
+            logger=self.logger,
+            **postgres_credentials
+        )
+        self.logger.info(
+            msg=f'STARTING POSTGRES DATABASE CONNECTIVITY with {self.postgres_adapter.engine}'
+        )
+        if self.postgres_adapter.check_availability():
+            self.logger.info(
+                msg=f'POSTGRES DATABASE CONNECTED to {_host}',
+            )
+            # TODO Apply Migration
+        else:
+            self.logger.error(
+                msg='POSTGRES DATABASE CONNECTION FAILED',
+            )
+
+            raise ConnectionError(
+                f'Could not connect to the postgres database: {_host}'
             )

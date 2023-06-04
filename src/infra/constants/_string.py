@@ -103,7 +103,7 @@ class RegExPatternConstants():
     # ruff: noqa: E501
     MONGO = r'^(mongodb(\+srv)?:((?:\/{2})?)((\w+?):(\w+?)@|:?@?))(\S+?):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$'
     # ruff: noqa: E501
-    POSTGRES = r'^(postgresql(\+asyncpg))?:((?:\/{2})?)((\w+?):(\w+?)(@?)(\S+?)):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$'
+    POSTGRES_PSYCOPG2 = r'^(postgresql(\+psycopg2))?:((?:\/{2})?)((\w+?):(\w+?)(@?)(\S+?)):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$'
 
 
 class MongoConstants():
@@ -111,6 +111,13 @@ class MongoConstants():
     ENVVAR_MONGODB_USERNAME = "MONGODB_USERNAME"
     ENVVAR_MONGODB_PASSWORD = "MONGODB_PASSWORD"
     ENVVAR_MONGODB_DATABASE = "MONGODB_DATABASE"
+
+
+class PostgresConstants():
+    ENVVAR_POSTGRES_HOST = "POSTGRES_HOST"
+    ENVVAR_POSTGRES_USERNAME = "POSTGRES_USER"
+    ENVVAR_POSTGRES_PASSWORD = "POSTGRES_PASSWORD"
+    ENVVAR_POSTGRES_DATABASE = "POSTGRES_DATABASE"
 
 
 class FieldNameConstants():
