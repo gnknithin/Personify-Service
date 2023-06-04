@@ -3,7 +3,11 @@ from typing import Any, Dict
 
 from bson import ObjectId
 from infra.constants._string import FieldNameConstants
+from infra.generator.identity import IdentityGenerator
 from marshmallow import Schema, fields, pre_dump, pre_load
+from sqlalchemy import Column, DateTime
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import DeclarativeBase
 
 
 class BaseModel(Schema):
@@ -41,18 +45,27 @@ class BaseModel(Schema):
             ]
         return in_data
 
-    # @pre_dump
-    # def check_created_at(
-    #     self, in_data: Dict[Any, Any], **kwargs: Dict[Any, Any]
-    # ) -> Dict[Any, Any]:
-    #     if (FieldNameConstants.CREATED_AT not in in_data):
-    #         in_data[FieldNameConstants.CREATED_AT] = datetime.utcnow()
-    #     return in_data
 
-    # @pre_dump
-    # def check_updated_at(
-    #     self, in_data: Dict[Any, Any], **kwargs: Dict[Any, Any]
-    # ) -> Dict[Any, Any]:
-    #     if FieldNameConstants.UPDATED_AT not in in_data:
-    #         in_data[FieldNameConstants.UPDATED_AT] = datetime.utcnow()
-    #     return in_data
+class BaseSQLModel(DeclarativeBase):
+    __abstract__ = True
+
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        default=datetime.utcnow
+    )
+    updated_at = Column(
+        DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow
+    )
+
+
+class BaseSQLIdModel(BaseSQLModel):
+    __abstract__ = True
+
+    _id = Column(
+        UUID(as_uuid=True), primary_key=True, nullable=False,
+        default=IdentityGenerator.get_random_uuid4
+    )

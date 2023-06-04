@@ -128,6 +128,7 @@ class FieldNameConstants():
     DATE_OF_BIRTH = "date_of_birth"
     BIRTHDAY = "birthday"
     EMAIL = "email"
+    USERNAME = "username"
     PASSWORD = "password"
     MOBILE = "mobile"
     ACTIVE = "active"

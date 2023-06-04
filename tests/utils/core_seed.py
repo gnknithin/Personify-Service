@@ -54,6 +54,14 @@ class InitializeCoreSeed():
         return f'full-name-{value}'
 
     @staticmethod
+    def get_username(value: int) -> str:
+        return f'user-{value}-name'
+
+    @staticmethod
+    def get_password(value: int) -> str:
+        return f'user-{value}-password'
+
+    @staticmethod
     def get_gender_male() -> str:
         return 'male'
 
@@ -192,5 +200,39 @@ class SampleTestSeed():
             _d[
                 FieldNameConstants.ACTIVE
             ] = InitializeCoreSeed.get_random_bool()
+            _data.append(_d)
+        return _data
+
+
+class UserSeed():
+    @staticmethod
+    def create_seed(size: int) -> List[Dict[Any, Any]]:
+        _data: List[Dict[Any, Any]] = InitializeCoreSeed.get_list()
+        for each in range(size):
+            _d: Dict[Any, Any] = InitializeCoreSeed.get_dict()
+            _d[
+                FieldNameConstants.CREATED_AT
+            ] = InitializeCoreSeed.get_datetime_utcnow()
+            _d[
+                FieldNameConstants.UPDATED_AT
+            ] = InitializeCoreSeed.get_datetime_utcnow()
+            _d[
+                FieldNameConstants.OBJECT_ID
+            ] = IdentityGenerator.get_random_uuid4()
+            _d[
+                FieldNameConstants.USERNAME
+            ] = InitializeCoreSeed.get_username(each)
+            _d[
+                FieldNameConstants.PASSWORD
+            ] = InitializeCoreSeed.get_password(each)
+            _d[
+                FieldNameConstants.FULL_NAME
+            ] = InitializeCoreSeed.get_full_name(each)
+            _d[
+                FieldNameConstants.DATE_OF_BIRTH
+            ] = InitializeCoreSeed.get_date()
+            _d[
+                FieldNameConstants.EMAIL
+            ] = InitializeCoreSeed.get_email(each)
             _data.append(_d)
         return _data

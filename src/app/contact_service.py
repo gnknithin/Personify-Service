@@ -49,6 +49,7 @@ class ContactService(BaseGenericService[ContactModel]):
     def getUserContactById(
         self, user_id: UUID, contact_id: str
     ) -> Union[ContactModel, None]:
+        # TODO Query Contact-ID By User-ID
         return self._get_by_key(key=contact_id)
 
     def getUserContacts(
