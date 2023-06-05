@@ -2,8 +2,9 @@ import logging
 from typing import Any, Dict, Generic, List, Optional, Type, Union
 
 from app.abstract_service import AbstractService
-from infra.constants._type import TEntityModel
+from infra.constants._type import TEntityModel, TSQLEntityModel
 from infra.data.unit_of_work.mongo_unit_of_work import MongoUnitOfWork
+from infra.data.unit_of_work.postgres_unit_of_work import PostgresUnitOfWork
 
 
 class BaseGenericService(AbstractService, Generic[TEntityModel]):
@@ -47,3 +48,19 @@ class BaseGenericService(AbstractService, Generic[TEntityModel]):
     def _remove(self, key: str) -> bool:
         with self.unit_of_work as _uow:
             return _uow.repository.remove(key)
+
+
+class BaseSQLGenericService(AbstractService, Generic[TSQLEntityModel]):
+    def __init__(
+        self, logger: logging.Logger,
+        uow: PostgresUnitOfWork[TSQLEntityModel],
+        model_type: Type[TSQLEntityModel]
+    ):
+        super().__init__(logger=logger)
+        self._model_type = model_type
+        self._unit_of_work = uow
+
+    @property
+    def unit_of_work(self) -> PostgresUnitOfWork[TSQLEntityModel]:
+        """The uow property."""
+        return self._unit_of_work

@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Type, Union
+from typing import Any, Dict, List, Type, Union
 from uuid import UUID
 
 from app.base_generic_service import BaseGenericService

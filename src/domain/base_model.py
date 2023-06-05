@@ -46,6 +46,7 @@ class BaseModel(Schema):
         return in_data
 
 
+
 class BaseSQLModel(DeclarativeBase):
     __abstract__ = True
 

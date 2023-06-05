@@ -153,3 +153,14 @@ class MongoDBKeywordConstants():
     RETURN_DOCUMENT = "return_document"
     OPERATOR_SET = "$set"
     OPERATOR_IN = "$in"
+
+
+class MigrateEngineConstants():
+    CONNECTION = "connection"
+    HEAD = "head"
+    MIGRATION_CONFIG_FILE = "src/infra/data/migrations/alembic.ini"
+
+
+class AlembicConstants():
+    ENVVAR_APPLY_MIGRATIONS_NAME = 'APPLY_MIGRATIONS'
+    ENVVAR_ALAMBIC_CONFIG_NAME = 'ALEMBIC_CONFIG'

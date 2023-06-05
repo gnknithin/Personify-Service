@@ -15,8 +15,8 @@ class MongoUnitOfWorkFactory():
         collection_name: str,
         model_type: Type[TEntityModel],
         scope: str
-    ) -> MongoUnitOfWork:
-        unit_of_work = MongoUnitOfWork(
+    ) -> MongoUnitOfWork[TEntityModel]:
+        unit_of_work = MongoUnitOfWork[TEntityModel](
             logger=self._bootstrap.logger,
             db_adapter=self._bootstrap.mongo_adapter,
             db_name=db_name,

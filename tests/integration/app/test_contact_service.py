@@ -1,5 +1,5 @@
 from random import choice
-from typing import Any, Dict, List, Type
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
 from app.factory.build_contact_service import ContactServiceFactory
@@ -31,9 +31,7 @@ class TestContactService(BaseIntegrationTest):
         del seed_contact_data[FieldNameConstants.USER_ID]
         del seed_contact_data[FieldNameConstants.CREATED_AT]
         del seed_contact_data[FieldNameConstants.UPDATED_AT]
-        seed_contact_model: Dict[
-            Any, Any
-        ] = ContactModel().load(
+        seed_contact_model: Any = ContactModel().load(
             data=seed_contact_data,
             partial=(
                 FieldNameConstants.USER_ID,
@@ -74,19 +72,19 @@ class TestContactService(BaseIntegrationTest):
         del seed_data[FieldNameConstants.CREATED_AT]
         del seed_data[FieldNameConstants.UPDATED_AT]
 
-        seed_contact_model = ContactModel().load(
+        seed_contact_model: Any = ContactModel().load(
             data=create_data,
             partial=(
                 FieldNameConstants.USER_ID,
             )
         )
         # Arrange
-        contact_id: str = contact_service.addUserContact(
+        contact_id: Optional[str] = contact_service.addUserContact(
             user_id=seed_user_id,
             data=seed_contact_model
         )
         assert contact_id is not None
-        update_data = ContactModel().load(
+        update_data: Any = ContactModel().load(
             data=seed_data,
             partial=(
                 FieldNameConstants.USER_ID,
@@ -123,13 +121,14 @@ class TestContactService(BaseIntegrationTest):
             del each[FieldNameConstants.USER_ID]
             del each[FieldNameConstants.CREATED_AT]
             del each[FieldNameConstants.UPDATED_AT]
-            each_contact_model = ContactModel().load(
+            each_contact_model: Any = ContactModel().load(
                 data=each, partial=(FieldNameConstants.USER_ID,))
-            contact_id: str = contact_service.addUserContact(
+            contact_id: Optional[str] = contact_service.addUserContact(
                 user_id=seed_user_id,
                 data=each_contact_model
             )
-            created_contact_ids.append(contact_id)
+            if contact_id is not None:
+                created_contact_ids.append(contact_id)
 
         # Act
         sut = contact_service.getUserContacts(user_id=seed_user_id)

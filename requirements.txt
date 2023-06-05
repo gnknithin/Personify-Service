@@ -10,3 +10,5 @@ python-dotenv
 pymongo
 python-dateutil
 sqlalchemy
+psycopg2-binary
+alembic
