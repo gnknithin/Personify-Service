@@ -1,6 +1,7 @@
 import logging
 import operator
 from typing import Any, Dict, Generic, List, Optional, Type, Union
+from uuid import UUID
 
 from infra.constants._string import FieldNameConstants
 from infra.constants._type import TSQLEntityModel
@@ -26,7 +27,21 @@ class PostgresRepository(AbstractRepository, Generic[TSQLEntityModel]):
     def count(self) -> int:
         return self._session.query(self._model_type).count()
 
-    def get_by_key(self, key: Any) -> Union[TSQLEntityModel, None]:
+    def add(self, data: Type[TSQLEntityModel]) -> UUID:
+        with self._session as session:
+            session.add(data)
+            session.commit()
+            session.refresh(data)
+
+        return getattr(data, FieldNameConstants.OBJECT_ID)
+
+    def remove(self, key: UUID) -> bool:
+        result = self._session.query(
+            self._model_type).filter_by(_id=key).delete()
+
+        return result == 1
+
+    def get_by_key(self, key: UUID) -> Union[Type[TSQLEntityModel], None]:
         return self._session.get(self._model_type, key)
 
     def get(
@@ -34,7 +49,7 @@ class PostgresRepository(AbstractRepository, Generic[TSQLEntityModel]):
         filter_by: Optional[Dict[Any, Any]] = None,
         skip_to: int = 0,
         limit_by: int = 0
-    ) -> List[TSQLEntityModel]:
+    ) -> List[Type[TSQLEntityModel]]:
         query = self._session.query(self._model_type)
         if filter_by:
             for _filter_col_name, filters_dict in filter_by.items():
@@ -47,17 +62,3 @@ class PostgresRepository(AbstractRepository, Generic[TSQLEntityModel]):
                     )
 
         return query.offset(skip_to).limit(limit_by).all()
-
-    def add(self, data: TSQLEntityModel) -> Any:
-        with self._session as session:
-            session.add(data)
-            session.commit()
-            session.refresh(data)
-
-        return getattr(data, FieldNameConstants.OBJECT_ID)
-
-    def remove(self, key: str) -> bool:
-        result = self._session.query(
-            self._model_type).filter_by(id=key).delete()
-
-        return result == 1

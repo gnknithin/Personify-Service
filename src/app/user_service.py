@@ -1,10 +1,12 @@
 import logging
-from typing import Any, Type, Union
+from typing import Type, Union
+from uuid import UUID
 
 from app.base_generic_service import BaseSQLGenericService
 from domain.user_model import UserModel
 from infra.constants._type import TSQLEntityModel
 from infra.data.unit_of_work.postgres_unit_of_work import PostgresUnitOfWork
+from sqlalchemy.exc import IntegrityError
 
 
 class UserService(BaseSQLGenericService[UserModel]):
@@ -16,18 +18,19 @@ class UserService(BaseSQLGenericService[UserModel]):
     ) -> None:
         super().__init__(logger=logger, uow=uow, model_type=model_type)
 
-    '''
-    def add(self, data: UserModel) -> Union[str, None]:
-        entity_id = None
+    def createUser(self, data: UserModel) -> Union[None, UUID]:
+        try:
+            user_id = self._add(data=data)
+        except IntegrityError as intgrity_error:
+            # https://docs.sqlalchemy.org/en/20/errors.html#interfaceerror
+            self._logger.warning(msg=f'{intgrity_error}')
+            user_id = None
+        return user_id
 
-        with self.unit_of_work as uow:
-            entity_id = uow.repository.add(data)
+    def getUserById(
+        self, user_id: UUID
+    ) -> Union[UserModel, None]:
+        return self._get_by_key(key=user_id)
 
-        return entity_id
-
-    def remove(self, key: Any) -> bool:
-        with self.unit_of_work as uow:
-            response = uow.repository.remove(key)
-
-            return response
-    '''
+    def deleteUser(self, user_id: UUID) -> bool:
+        return self._remove(key=user_id)

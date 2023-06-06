@@ -37,9 +37,10 @@ class MongoRepository(AbstractRepository, Generic[TEntityModel]):
     def collection(self) -> str:
         return self._collection_name
 
-    def add(self, data: TEntityModel) -> Union[str, None]:
+    def add(self, data: Type[TEntityModel]) -> Union[str, None]:
         return self.context.insert_one(
-            db_name=self.database, collection_name=self.collection,
+            db_name=self.database,
+            collection_name=self.collection,
             data=self._model_type().dump(obj=data)
         )
 

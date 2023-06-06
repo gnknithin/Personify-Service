@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from random import choice
+from random import choice, randint, seed
 from typing import Any, Dict, List
 
 from infra.constants._string import FieldNameConstants, GenericConstants
@@ -55,7 +55,7 @@ class InitializeCoreSeed():
 
     @staticmethod
     def get_username(value: int) -> str:
-        return f'user-{value}-name'
+        return f'user-{value}-name-{randint(a=1,b=100)}'
 
     @staticmethod
     def get_password(value: int) -> str:

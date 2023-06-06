@@ -1,3 +1,4 @@
+logging:
   version: 1
   formatters:
     brief:

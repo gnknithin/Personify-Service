@@ -33,8 +33,10 @@ class MongoUnitOfWork(AbstractUnitOfWork, Generic[TEntityModel]):
     def repository(self) -> MongoRepository[TEntityModel]:
         """The repository property."""
         self._logger.info(
-            msg=f'{self.__class__.__name__} Ids - Scope: {self._scope} - UoW id: {id(self)}')
-
+            msg='{0} Ids - Scope: {1} - UoW id: {2}'.format(
+                self.__class__.__name__, self._scope, id(self)
+            )
+        )
         return self._repository
 
     def commit(self) -> Any:
@@ -45,7 +47,10 @@ class MongoUnitOfWork(AbstractUnitOfWork, Generic[TEntityModel]):
 
     def __enter__(self):
         self._logger.info(
-            msg=f'{self.__class__.__name__} Context Manager Scope started - Scope: {self._scope}')
+            msg=f'{0} Context Manager Scope started - Scope: {1}'.format(
+                self.__class__.__name__, self._scope
+            )
+        )
         return self
 
     def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any):

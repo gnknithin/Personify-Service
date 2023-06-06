@@ -1,5 +1,6 @@
 import logging
 from typing import Any, Dict, Generic, List, Optional, Type, Union
+from uuid import UUID
 
 from app.abstract_service import AbstractService
 from infra.constants._type import TEntityModel, TSQLEntityModel
@@ -64,3 +65,26 @@ class BaseSQLGenericService(AbstractService, Generic[TSQLEntityModel]):
     def unit_of_work(self) -> PostgresUnitOfWork[TSQLEntityModel]:
         """The uow property."""
         return self._unit_of_work
+
+    def _add(self, data: Type[TSQLEntityModel]) -> Union[UUID, None]:
+        with self.unit_of_work as _uow:
+            return _uow.repository.add(data)
+
+    def _get_by_key(self, key: UUID) -> Union[Type[TSQLEntityModel], None]:
+        with self.unit_of_work as _uow:
+            return _uow.repository.get_by_key(key)
+
+    def _get(
+        self, filter_by: Optional[Dict[Any, Any]] = None,
+        skip_to: Optional[int] = 0, limit_by: Optional[int] = 0
+    ) -> List[Type[TSQLEntityModel]]:
+        with self.unit_of_work as _uow:
+            return _uow.repository.get(
+                filter_by=filter_by,
+                skip_to=skip_to,
+                limit_by=limit_by
+            )
+
+    def _remove(self, key: UUID) -> bool:
+        with self.unit_of_work as uow:
+            return uow.repository.remove(key)
