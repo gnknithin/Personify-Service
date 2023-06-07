@@ -6,3 +6,9 @@ marshmallow
 PyYAML
 swagger-ui-py
 tornado
+python-dotenv
+pymongo
+python-dateutil
+sqlalchemy
+psycopg2-binary
+alembic

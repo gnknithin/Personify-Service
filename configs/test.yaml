@@ -15,9 +15,23 @@ logging:
       class: logging.handlers.RotatingFileHandler
       level: DEBUG
       formatter: detailed
-      filename: /tmp/personify-service-app.log
+      filename: /tmp/customers-service-app.log
       backupCount: 3
   loggers:
+    alembic:
+      level: INFO
+      handlers:
+        - console
+        - file
+      qualname: alembic
+      propagate: no
+    sqlalchemy.engine.Engine:
+      level: WARNING
+      handlers:
+        - console
+        - file
+      qualname: sqlalchemy.engine.Engine
+      propagate: no
     personify-service:
       level: DEBUG
       handlers:

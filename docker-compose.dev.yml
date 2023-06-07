@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+  postgres-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: testenv@123
+      POSTGRES_USER: personifydev
+      POSTGRES_DB: personify
+    ports:
+      - 5432:5432
+    networks:
+      - personify-dev-net
+  postgres-adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - postgres-db
+    ports:
+      - 8080:8080
+    networks:
+      - personify-dev-net
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: personifydev
+      MONGO_INITDB_ROOT_PASSWORD: testenv@123
+    command: [ --auth ]
+    ports:
+      - 27017:27017
+    networks:
+      - personify-dev-net
+  db-admin:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongodb
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: personifydev
+      ME_CONFIG_MONGODB_ADMINPASSWORD: testenv%40123
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    networks:
+      - personify-dev-net
+networks:
+  personify-dev-net:
+    driver: bridge

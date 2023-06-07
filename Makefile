@@ -1,17 +1,28 @@
+up-docker-dev:
+	docker-compose -f ./docker-compose.dev.yml up -d --force-recreate --renew-anon-volumes
+ps-docker-dev:
+	docker-compose -f ./docker-compose.dev.yml ps
+down-docker-dev:
+	docker-compose -f ./docker-compose.dev.yml down --remove-orphans
+up-docker-prod:
+	docker-compose -f ./docker-compose.prod.yml up -d --force-recreate --renew-anon-volumes
+ps-docker-prod:
+	docker-compose -f ./docker-compose.prod.yml ps
+down-docker-prod:
+	docker-compose -f ./docker-compose.prod.yml down --remove-orphans
 pytest-coverage:
 	pytest -vv --cov --cov-report=term-missing
 pytest-collect:
 	pytest --collect-only
-run-server:
-	python3 src/server.py -p 8888 -c ./configs/development.yaml -d
 mypy:
 	mypy .
 ruff:
 	ruff check .
 ruff-fix:
 	ruff check --fix .
+pre-push: mypy ruff
 install-testing-req:
-	pip3 install pytest pytest-asyncio pytest-cov
+	pip3 install pytest pytest-asyncio pytest-cov pytest-dotenv
 install-linting-req:
 	pip3 install autopep8 mypy ruff
 install-req:
