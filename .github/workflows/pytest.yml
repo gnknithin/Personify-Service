@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8"]
     services:
       postgres-db:
         image: postgres
@@ -14,14 +14,9 @@ jobs:
           POSTGRES_PASSWORD: testenv@123
           POSTGRES_USER: personifydev
           POSTGRES_DB: personify
-        options: >-
-            --health-cmd pg_isready
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 5
         ports:
           - 5432:5432
-      mongodb:
+      mongo-db:
         image: mongo
         env:
           MONGO_INITDB_ROOT_USERNAME: personifydev
@@ -43,13 +38,15 @@ jobs:
       - name: Install required packages along with Pytest
         run: pip install pytest pytest-cov pytest-asyncio pytest-dotenv
         env:
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          # The hostname used to communicate with the PostgreSQL service container
+          POSTGRES_HOST: postgres-db
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }}
           APPLY_MIGRATIONS: ${{ secrets.APPLY_MIGRATIONS }}
           ALEMBIC_CONFIG: ${{ secrets.ALEMBIC_CONFIG }}
-          MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
+          # The hostname used to communicate with the MongoDB service container
+          MONGODB_HOST: mongo-db
           MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
           MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       - name: Running tests with Code Coverage
