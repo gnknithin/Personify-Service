@@ -21,11 +21,11 @@ class TestMongoRepository(BaseIntegrationTest):
     def __get_mongo_repository(
         self,
         init_bootstrap: ApplicationBootstrap
-    ) -> MongoRepository:
+    ) -> MongoRepository[BaseModel]:
         _logger = init_bootstrap.logger
         _mongo_adapter = init_bootstrap.mongo_adapter
         _db, _collection = self.__sample_database_and_repository_collection()
-        return MongoRepository(
+        return MongoRepository[BaseModel](
             logger=_logger,
             db_adapter=_mongo_adapter,
             database_name=_db,

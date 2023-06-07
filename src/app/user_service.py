@@ -2,14 +2,14 @@ import logging
 from typing import Type, Union
 from uuid import UUID
 
-from app.base_generic_service import BaseSQLGenericService
+from app.base_generic_service import BaseGenericService
 from domain.user_model import UserModel
 from infra.constants._type import TSQLEntityModel
 from infra.data.unit_of_work.postgres_unit_of_work import PostgresUnitOfWork
 from sqlalchemy.exc import IntegrityError
 
 
-class UserService(BaseSQLGenericService[UserModel]):
+class UserService(BaseGenericService[UserModel]):
     def __init__(
         self,
         logger: logging.Logger,

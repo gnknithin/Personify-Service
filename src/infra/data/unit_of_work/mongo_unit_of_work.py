@@ -1,13 +1,13 @@
 import logging
-from typing import Any, Generic, Type
+from typing import Any, Type
 
 from infra.adapters.database.mongo.pymongo_adapter import PyMongoAdapter
 from infra.constants._type import TEntityModel
 from infra.data.repositories.mongo_repository import MongoRepository
-from infra.data.unit_of_work.abstract_unit_of_work import AbstractUnitOfWork
+from infra.data.unit_of_work.base_unit_of_work import BaseUnitOfWork
 
 
-class MongoUnitOfWork(AbstractUnitOfWork, Generic[TEntityModel]):
+class MongoUnitOfWork(BaseUnitOfWork[TEntityModel]):
     def __init__(
         self,
         logger: logging.Logger,
@@ -17,8 +17,7 @@ class MongoUnitOfWork(AbstractUnitOfWork, Generic[TEntityModel]):
         model_type: Type[TEntityModel],
         scope: str = ''
     ) -> None:
-        super().__init__(logger=logger)
-        self._model_type = model_type
+        super().__init__(logger=logger, model_type=model_type)
         self._db_client = db_adapter
         self._scope = scope
         self._repository = MongoRepository[TEntityModel](

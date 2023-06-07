@@ -1,8 +1,10 @@
 import logging
-from abc import ABC
+from typing import Generic, TypeVar
+
+T = TypeVar('T')
 
 
-class AbstractRepository(ABC):
+class BaseRepository(Generic[T]):
     def __init__(
         self,
         logger: logging.Logger

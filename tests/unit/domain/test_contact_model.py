@@ -20,7 +20,7 @@ class TestBaseModel(BaseUnitTest):
             # Arrange
             seed_data: Dict[Any, Any] = dict()
             # Act
-            sut = ContactModel().load(data=seed_data)
+            ContactModel().load(data=seed_data)
             # Assert
             assert validation_error.type is ValidationError
 

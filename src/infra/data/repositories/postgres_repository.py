@@ -1,15 +1,15 @@
 import logging
 import operator
-from typing import Any, Dict, Generic, List, Optional, Type, Union
+from typing import Any, Dict, List, Optional, Type, Union
 from uuid import UUID
 
 from infra.constants._string import FieldNameConstants
 from infra.constants._type import TSQLEntityModel
-from infra.data.repositories.abstract_repository import AbstractRepository
+from infra.data.repositories.base_repository import BaseRepository
 from sqlalchemy.orm import Session
 
 
-class PostgresRepository(AbstractRepository, Generic[TSQLEntityModel]):
+class PostgresRepository(BaseRepository[TSQLEntityModel]):
     """
     A base class for Postgres repositories.
     """

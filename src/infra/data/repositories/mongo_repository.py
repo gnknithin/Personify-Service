@@ -1,12 +1,12 @@
 import logging
-from typing import Any, Dict, Generic, List, Optional, Type, Union
+from typing import Any, Dict, List, Optional, Type, Union
 
 from infra.adapters.database.mongo.pymongo_adapter import PyMongoAdapter
 from infra.constants._type import TEntityModel
-from infra.data.repositories.abstract_repository import AbstractRepository
+from infra.data.repositories.base_repository import BaseRepository
 
 
-class MongoRepository(AbstractRepository, Generic[TEntityModel]):
+class MongoRepository(BaseRepository[TEntityModel]):
     '''
     A Base Class for all MongoDB Repositories Using PyMongo Package
     '''

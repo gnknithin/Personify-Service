@@ -1,14 +1,14 @@
 import logging
-from typing import Any, Generic, Type
+from typing import Any, Type
 
 from infra.adapters.database.postgres.postgres_adapter import PostgresAdapter
 from infra.constants._type import TSQLEntityModel
 from infra.data.repositories.postgres_repository import PostgresRepository
-from infra.data.unit_of_work.abstract_unit_of_work import AbstractUnitOfWork
+from infra.data.unit_of_work.base_unit_of_work import BaseUnitOfWork
 from sqlalchemy.orm import sessionmaker
 
 
-class PostgresUnitOfWork(AbstractUnitOfWork, Generic[TSQLEntityModel]):
+class PostgresUnitOfWork(BaseUnitOfWork[TSQLEntityModel]):
     def __init__(
         self,
         logger: logging.Logger,
@@ -16,8 +16,7 @@ class PostgresUnitOfWork(AbstractUnitOfWork, Generic[TSQLEntityModel]):
         model_type: Type[TSQLEntityModel],
         scope: str
     ) -> None:
-        super().__init__(logger=logger)
-        self._model_type = model_type
+        super().__init__(logger=logger, model_type=model_type)
         self._session_factory = sessionmaker(db_adapter.engine)
         self._session = self._session_factory()
         self._scope = scope

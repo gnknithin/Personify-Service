@@ -1,15 +1,21 @@
 import logging
-from abc import ABC, abstractmethod
-from typing import Any
+from abc import abstractmethod
+from typing import Any, Generic, Type, TypeVar
+
+from infra.constants._type import TEntity
+
+T = TypeVar('T')
 
 
-class AbstractUnitOfWork(ABC):
+class BaseUnitOfWork(Generic[T]):
     def __init__(
         self,
-        logger: logging.Logger
+        logger: logging.Logger,
+        model_type: Type[TEntity]
     ) -> None:
         super().__init__()
         self._logger = logger
+        self._model_type = model_type
         self._session = None
 
     @property

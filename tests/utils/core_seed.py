@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from random import choice, randint, seed
+from random import choice, randint
 from typing import Any, Dict, List
 
 from infra.constants._string import FieldNameConstants, GenericConstants
