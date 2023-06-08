@@ -19,7 +19,7 @@ class TestMongoAdapter(BaseUnitTest):
 
     def _get_dummy_connection_string(self) -> str:
         host = 'localhost'
-        username = 'fakecustomer'
+        username = 'fakeuser'
         password = '123456'
         database = 'fake_database'
         driver = "mongodb"

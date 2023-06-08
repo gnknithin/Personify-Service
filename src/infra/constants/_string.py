@@ -27,6 +27,7 @@ class GenericConstants():
     STATUS_CODE = "status_code"
     MESSAGE = "message"
     DECOMPRESS_REQUEST = "decompress_request"
+    HEADER_USER_ID = "X-User-Id"
 
 
 class ConfigurationConstants():
@@ -85,6 +86,7 @@ class MessagesConstants():
     MSG_INVALID_QUERY_ARGUMENTS = "Invalid query arguments"
     MSG_INVALID_NEGATIVE_INTEGER = "Invalid negative number"
     MSG_PARAMETERS_OUT_OF_RANGE = "Parameters are out of range"
+    MSG_ACCOUNT_ALREADY_EXISTS = "Account already exists"
 
 
 class SwaggerConstants():

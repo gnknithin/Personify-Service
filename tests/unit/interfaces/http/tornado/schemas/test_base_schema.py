@@ -1,4 +1,4 @@
-from collections import OrderedDict
+
 from typing import Any, Dict, List
 
 import pytest
@@ -18,20 +18,18 @@ from tests.utils.core_seed import BadRequestSchemaSeed, BaseSuccessSchemaSeed
 
 class TestBaseSuccessSchema(BaseUnitTest):
 
-    def _create_records(self,size:int)->List[Dict[Any,Any]]:
+    def _create_records(self, size: int) -> List[Dict[Any, Any]]:
         return BaseSuccessSchemaSeed.create_seed(size=size)
 
     def test_should_return_a_validation_error_with_properly(self):
         with pytest.raises(ValidationError) as validation_err:
             # Arrange
-            seed_data:Dict[Any,Any] = dict()
+            seed_data: Dict[Any, Any] = dict()
             seed_data[GenericConstants.SUCCESS] = None
             # Act
             BaseSuccessSchema().load(data=seed_data)
             # Assert
             assert validation_err.type is ValidationError
-
-
 
     def test_should_return_an_instance_of_basesuccessschema_properly(self):
         # Arrange
@@ -43,15 +41,14 @@ class TestBaseSuccessSchema(BaseUnitTest):
 
     def test_should_load_and_return_an_instance_properly(self):
         # Arrange
-        seed_data:Dict[Any,Any] = self._create_records(size=1)[0]
+        seed_data: Dict[Any, Any] = self._create_records(size=1)[0]
         # Act
         sut = BaseSuccessSchema().load(data=seed_data)
         # Assert
         assert sut is not None
-        assert isinstance(sut, OrderedDict)
+        assert isinstance(sut, Dict)
         assert GenericConstants.SUCCESS in sut
-        assert isinstance(sut[GenericConstants.SUCCESS],bool)
-
+        assert isinstance(sut[GenericConstants.SUCCESS], bool)
 
 
 class TestBaseErrorSchema(BaseUnitTest):
@@ -69,7 +66,6 @@ class TestBaseErrorSchema(BaseUnitTest):
             # Assert
             assert validation_err.type is ValidationError
 
-
     def test_should_return_an_instance_of_baseerrorschema_properly(self):
         # Arrange
         # Act
@@ -80,25 +76,25 @@ class TestBaseErrorSchema(BaseUnitTest):
 
     def test_should_load_and_return_an_instance_properly(self):
         # Arrange
-        seed_data:Dict[Any,Any] = self._create_records(size=1)[0]
+        seed_data: Dict[Any, Any] = self._create_records(size=1)[0]
         # Act
         sut = BaseErrorSchema().load(data=seed_data)
         # Assert
         assert sut is not None
-        assert isinstance(sut, OrderedDict)
+        assert isinstance(sut, Dict)
         assert GenericConstants.SUCCESS in sut
         assert isinstance(sut[GenericConstants.SUCCESS], bool)
 
 
 class TestBadRequestSchema(BaseUnitTest):
 
-    def _create_records(self,size:int)->List[Dict[Any,Any]]:
+    def _create_records(self, size: int) -> List[Dict[Any, Any]]:
         return BadRequestSchemaSeed.create_seed(size=size)
 
     def test_should_return_a_validation_error_with_properly(self):
         with pytest.raises(ValidationError) as validation_err:
             # Arrange
-            seed_data:Dict[Any,Any] = dict()
+            seed_data: Dict[Any, Any] = dict()
             seed_data[GenericConstants.SUCCESS] = None
             seed_data[GenericConstants.ERRORS] = None
             # Act
@@ -122,19 +118,18 @@ class TestBadRequestSchema(BaseUnitTest):
         # Assert
         assert sut is not None
         assert GenericConstants.SUCCESS in sut
-        assert isinstance(sut[GenericConstants.SUCCESS],bool)
+        assert isinstance(sut[GenericConstants.SUCCESS], bool)
         assert GenericConstants.ERRORS in sut
         assert isinstance(sut[GenericConstants.ERRORS], list)
         for item in sut[GenericConstants.ERRORS]:
             assert item is not None
-            assert isinstance(item,str)
+            assert isinstance(item, str)
 
 
 class TestNotFoundSchema(BaseUnitTest):
 
     def _create_records(self, size: int) -> List[Dict[Any, Any]]:
         return BadRequestSchemaSeed.create_seed(size=size)
-
 
     def test_should_return_a_validation_error_with_properly(self):
         with pytest.raises(ValidationError) as validation_err:
@@ -157,7 +152,7 @@ class TestNotFoundSchema(BaseUnitTest):
 
     def test_should_load_and_return_an_instance_properly(self):
         # Arrange
-        seed_data:Dict[Any,Any] = self._create_records(size=1)[0]
+        seed_data: Dict[Any, Any] = self._create_records(size=1)[0]
         # Act
         sut = NotFoundSchema().load(data=seed_data)
         # Assert
@@ -186,7 +181,6 @@ class TestServerErrorSchema(BaseUnitTest):
             ServerErrorSchema().load(data=seed_data)
             # Assert
             assert validation_err.type is ValidationError
-
 
     def test_should_return_an_instance_of_servererrorschema_properly(self):
         # Arrange

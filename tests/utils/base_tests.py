@@ -1,8 +1,12 @@
 from abc import ABC
+from typing import Any, Dict
 
 import aiotask_context as context
 import pytest
+from app.factory.build_user_service import UserServiceFactory
+from app.user_service import UserService
 from bootstrap import ApplicationBootstrap
+from infra.constants._string import HttpConstants
 from infra.parser.argument_parser import ArgumentParser
 from interfaces.http.tornado.tornado_app import MainApplication
 from tornado.ioloop import IOLoop
@@ -21,14 +25,14 @@ class BaseUnitTest(ABC):
     @pytest.fixture(autouse=True)
     def setup_boostrap(self) -> UnitTestFakeBootstrap:
         args = ['-c', './configs/development.yaml']
-        return  UnitTestFakeBootstrap(
+        return UnitTestFakeBootstrap(
             bootstrap_args=ArgumentParser.parse_arguments(input_args=args)
         )
 
     @pytest.fixture(autouse=True)
     def init_bootstrap(
         self,
-        setup_boostrap:UnitTestFakeBootstrap
+        setup_boostrap: UnitTestFakeBootstrap
     ) -> UnitTestFakeBootstrap:
         return setup_boostrap
 
@@ -53,15 +57,27 @@ class BaseIntegrationTest(ABC):
 
 class MainApplicationTestSetup(AsyncHTTPTestCase):
     pytestmark = pytest.mark.e2e
+    SCOPE = "e2e-tests"
+    bootstrap = None
 
     def get_app(self) -> MainApplication:
         args = ['-p', '8888', '-c', './configs/test.yaml']
-        _bootstrap = ApplicationBootstrap(
+        self.bootstrap = ApplicationBootstrap(
             bootstrap_args=ArgumentParser.parse_arguments(input_args=args)
         )
-        return MainApplication(bootstrap=_bootstrap,debug=True)
+        return MainApplication(bootstrap=self.bootstrap, debug=True)
 
-    def get_new_ioloop(self)->IOLoop:
+    def get_new_ioloop(self) -> IOLoop:
         instance = AsyncIOLoop()
         instance.asyncio_loop.set_task_factory(context.task_factory)
         return instance
+
+    def get_user_service(self) -> UserService:
+        return UserServiceFactory(
+            bootstrap=self.bootstrap
+        ).build(scope=self.SCOPE)
+
+    def _get_headers(self) -> Dict[Any, Any]:
+        _headers: Dict[Any, Any] = dict()
+        _headers[HttpConstants.HEADER_CONTENT_TYPE] = HttpConstants.MIME_TYPE_JSON
+        return _headers
