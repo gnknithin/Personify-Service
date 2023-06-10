@@ -29,6 +29,9 @@ class GenericConstants():
     DECOMPRESS_REQUEST = "decompress_request"
     HEADER_USER_ID = "X-User-Id"
 
+class ColumnComparisionOperatorConstant():
+    EQUAL = "__eq__"
+
 
 class ConfigurationConstants():
     LOGGER = "logger"
