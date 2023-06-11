@@ -3,6 +3,9 @@ from hmac import compare_digest
 
 from infra.constants._string import GenericConstants
 
+# https://docs.python.org/3/library/hashlib.html#key-derivation
+# https://stackoverflow.com/questions/9594125/salt-and-hash-a-password-in-python
+
 
 class HashGenerator():
     HASH_NAME_SHA_256 = "sha256"
@@ -10,7 +13,7 @@ class HashGenerator():
     @staticmethod
     def create(
         value: str,
-        salt: str,
+        salt: str = 'dummy',
         iterations: int = 100
     ) -> str:
         return pbkdf2_hmac(
@@ -25,7 +28,7 @@ class HashGenerator():
     def is_valid(
         hashed_value: str,
         value: str,
-        salt: str,
+        salt: str = 'dummy',
         iterations: int = 100
     ) -> bool:
         return compare_digest(

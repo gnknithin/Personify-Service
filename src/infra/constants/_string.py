@@ -29,6 +29,7 @@ class GenericConstants():
     DECOMPRESS_REQUEST = "decompress_request"
     HEADER_USER_ID = "X-User-Id"
 
+
 class ColumnComparisionOperatorConstant():
     EQUAL = "__eq__"
 
@@ -90,6 +91,7 @@ class MessagesConstants():
     MSG_INVALID_NEGATIVE_INTEGER = "Invalid negative number"
     MSG_PARAMETERS_OUT_OF_RANGE = "Parameters are out of range"
     MSG_ACCOUNT_ALREADY_EXISTS = "Account already exists"
+    MSG_INVALID_PASSWORD = "Invalid password"
 
 
 class SwaggerConstants():

@@ -1,5 +1,3 @@
-
-
 from infra.generator.hashing import HashGenerator
 
 from tests.utils.base_tests import BaseUnitTest
