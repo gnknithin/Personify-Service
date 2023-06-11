@@ -1,19 +1,15 @@
 import logging
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional
-from uuid import UUID
+from typing import Any, Dict, List, Union
 
 from app.factory.build_user_service import UserServiceFactory
 from app.user_service import UserService
-from infra.constants._string import (
-    GenericConstants,
-    MessagesConstants,
-)
+from infra.constants._string import GenericConstants, MessagesConstants
 from interfaces.http.tornado.handlers.base_handler import BaseRequestHandler
 from interfaces.http.tornado.schemas.base_schema import BadRequestSchema
 
 
-class UserSignUpHandler(BaseRequestHandler):
+class UserSignInHandler(BaseRequestHandler):
     def initialize(
         self,
         logger: logging.Logger,
@@ -21,29 +17,30 @@ class UserSignUpHandler(BaseRequestHandler):
         service_factory: UserServiceFactory
     ) -> None:
         super().initialize(logger, schema_method_validators)
-        self._user_service: UserService = service_factory.build(scope=self.request_id)
+        self._user_service: UserService = service_factory.build(
+            scope=self.request_id)
 
     async def post(self):
-        """Creates a new user entry in user resource
+        """Let user login using username and password
         ---
         tags: [User]
-        summary: Creates a new user entry in users resource
-        description: Creates a new user entry in users resource
+        summary: Sign In
+        description: Logs user into the system
         requestBody:
             required: True
             content:
                 application/json:
                     schema:
-                        SignUpSchema
+                        SignInSchema
         responses:
-            201:
-                description: Created user successfully
+            200:
+                description: successful operation
                 headers:
-                    X-User-Id:
-                        description: User ID
+                    Authorization:
+                        description: Bearer toke
                         schema:
                             type: string
-                            example: fhds98ew89y234hrfwou
+                            example: Bearer fhds98ew89y234hrfwou
 
             400:
                 description: Invalid request format
@@ -68,20 +65,21 @@ class UserSignUpHandler(BaseRequestHandler):
         """
         _status: int = HTTPStatus.BAD_REQUEST
         _data: Any = None
-        _result: Optional[UUID] = self._user_service.createUser(
-            data=self.payload
-        )
-        if _result is not None:
-            _status = HTTPStatus.CREATED
-            self.set_header(GenericConstants.HEADER_USER_ID, str(_result))
+        _result: Union[str, List[str]] = self._user_service.loginUserWithCredentials(
+            self.payload)
+        if isinstance(_result, str):
+            _status = HTTPStatus.OK
+            _bearer: str = f'{GenericConstants.BEARER} {_result}'
+            self.set_header(
+                name=GenericConstants.HEADER_AUTHORIZATION,
+                value=_bearer
+            )
         else:
             _errors: List[Any] = list()
             _errors.append(
                 MessagesConstants.MSG_BAD_PARAMETER_INPUT_FORMAT
             )
-            _errors.append(
-                MessagesConstants.MSG_ACCOUNT_ALREADY_EXISTS
-            )
+            _errors.extend(_result)
             _response: Dict[Any, Any] = dict()
             _response[GenericConstants.SUCCESS] = False
             _response[GenericConstants.ERRORS] = _errors

@@ -31,11 +31,14 @@ class BaseGenericService(Generic[T]):
 
     def _get(
         self, filter_by: Optional[Dict[Any, Any]] = None,
-        skip_to: Optional[int] = 0, limit_by: Optional[int] = 0
+        skip_to: Optional[int] = None,
+        limit_by: Optional[int] = None
     ) -> List[Type[T]]:
         with self.unit_of_work as _uow:
             return _uow.repository.get(
-                filter_by=filter_by, skip_to=skip_to, limit_by=limit_by
+                filter_by=filter_by,
+                skip_to=skip_to,
+                limit_by=limit_by
             )
 
     def _update(

@@ -28,6 +28,8 @@ class GenericConstants():
     MESSAGE = "message"
     DECOMPRESS_REQUEST = "decompress_request"
     HEADER_USER_ID = "X-User-Id"
+    HEADER_AUTHORIZATION = "Authorization"
+    BEARER = "Bearer"
 
 
 class ColumnComparisionOperatorConstant():

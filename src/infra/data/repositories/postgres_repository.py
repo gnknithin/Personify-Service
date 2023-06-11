@@ -1,11 +1,11 @@
 import logging
-import operator
 from typing import Any, Dict, List, Optional, Type, Union
 from uuid import UUID
 
 from infra.constants._string import FieldNameConstants
 from infra.constants._type import TSQLEntityModel
 from infra.data.repositories.base_repository import BaseRepository
+from sqlalchemy import BinaryExpression, ColumnOperators
 from sqlalchemy.orm import Session
 
 
@@ -44,21 +44,47 @@ class PostgresRepository(BaseRepository[TSQLEntityModel]):
     def get_by_key(self, key: UUID) -> Union[Type[TSQLEntityModel], None]:
         return self._session.get(self._model_type, key)
 
+    def _build_binary_expression(
+        self,
+        _comparision_operator: str,
+        _column_name: str,
+        _column_value: Any
+    ) -> BinaryExpression[Any]:
+        return getattr(
+            ColumnOperators, _comparision_operator
+        )(getattr(self._model_type, _column_name), _column_value)
+
+    def _compile_filter_by(
+        self,
+        filter_by: Optional[Dict[Any, Any]] = None
+    ) -> List[BinaryExpression[Any]]:
+        _binary_expressions: List[Any] = list()
+        if filter_by is not None:
+            for filter_column_name, filters_dict in filter_by.items():
+                for _comparision_operator, filter_column_value in filters_dict.items():
+                    _compiled_expression: Any = self._build_binary_expression(
+                        _comparision_operator,
+                        filter_column_name,
+                        filter_column_value
+                    )
+                    _binary_expressions.append(_compiled_expression)
+        return _binary_expressions
+
     def get(
         self,
         filter_by: Optional[Dict[Any, Any]] = None,
-        skip_to: int = 0,
-        limit_by: int = 0
-    ) -> List[Type[TSQLEntityModel]]:
-        query = self._session.query(self._model_type)
-        if filter_by:
-            for _filter_col_name, filters_dict in filter_by.items():
-                for _filter_comp_operator, _filter_col_value in filters_dict.items():
-                    query = query.filter(
-                        getattr(operator, _filter_comp_operator)(
-                            getattr(
-                                self._model_type, _filter_col_name
-                            ), _filter_col_value)
-                    )
-
-        return query.offset(skip_to).limit(limit_by).all()
+        skip_to: Optional[int] = None,
+        limit_by: Optional[int] = None
+    ) -> List[Any]:
+        """
+        Get all entities.
+        """
+        _expression_args: List[
+            BinaryExpression[Any]
+        ] = self._compile_filter_by(filter_by=filter_by)
+        # Execute
+        with self._session as session:
+            _result: List[Any] = session.query(
+                self._model_type
+            ).filter(*_expression_args).offset(skip_to).limit(limit_by).all()
+        return _result

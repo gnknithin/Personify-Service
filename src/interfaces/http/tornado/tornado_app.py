@@ -3,7 +3,7 @@ from http import HTTPStatus
 from typing import Any, Dict, List
 
 from app.factory.build_user_service import UserServiceFactory
-from bootstrap import ApplicationBootstrap, BaseBootstrap
+from bootstrap import ApplicationBootstrap
 from infra.constants._string import (
     ApplicationConstants,
     ConfigurationConstants,
@@ -14,10 +14,9 @@ from infra.constants._url import APIEndpointV1, HandlerConstants
 from infra.logging.logger import Logger
 from interfaces.http.tornado.handlers.default_handler import DefaultRequestHandler
 from interfaces.http.tornado.handlers.health_handler import HealthHandler
-from interfaces.http.tornado.handlers.v1.signup_handler import (
-    UserSignUpHandler,
-)
-from interfaces.http.tornado.schemas.v1.user_schema import SignUpSchema
+from interfaces.http.tornado.handlers.v1.signin_handler import UserSignInHandler
+from interfaces.http.tornado.handlers.v1.signup_handler import UserSignUpHandler
+from interfaces.http.tornado.schemas.v1.user_schema import SignInSchema, SignUpSchema
 from tornado.web import Application, RequestHandler
 
 
@@ -49,7 +48,7 @@ def log_function(handler: RequestHandler) -> None:
 class MainApplication(Application):
     def __init__(
         self,
-        bootstrap: BaseBootstrap,
+        bootstrap: ApplicationBootstrap,
         debug: bool
     ) -> None:
 
@@ -89,6 +88,17 @@ class MainApplication(Application):
                     logger=bootstrap.logger,
                     schema_method_validators=dict(
                         POST=SignUpSchema
+                    ),
+                    service_factory=UserServiceFactory(bootstrap=bootstrap)
+                )
+            ),
+            (
+                APIEndpointV1.SIGNIN_URI,
+                UserSignInHandler,
+                dict(
+                    logger=bootstrap.logger,
+                    schema_method_validators=dict(
+                        POST=SignInSchema
                     ),
                     service_factory=UserServiceFactory(bootstrap=bootstrap)
                 )
