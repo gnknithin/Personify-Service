@@ -9,6 +9,7 @@ class BaseFakeBootstrap(BaseBootstrap):
     def __init__(self, bootstrap_args: Namespace) -> None:
         super().__init__(bootstrap_args=bootstrap_args)
 
+
 @dataclass
 class UnitTestFakeBootstrap(BaseFakeBootstrap):
 
@@ -16,5 +17,7 @@ class UnitTestFakeBootstrap(BaseFakeBootstrap):
         super().__init__(bootstrap_args=bootstrap_args)
 
 
+@dataclass
 class IntegrationTestFakeContainer(ApplicationBootstrap):
-    pass
+    def __init__(self, bootstrap_args: Namespace) -> None:
+        super().__init__(bootstrap_args=bootstrap_args)
