@@ -11,7 +11,7 @@ from tests.utils.base_tests import BaseUnitTest
 from tests.utils.core_seed import ContactSeed
 
 
-class TestBaseModel(BaseUnitTest):
+class TestContactModel(BaseUnitTest):
     def _create_records(self, size: int) -> List[Dict[Any, Any]]:
         return ContactSeed.create_seed(size=size)
 

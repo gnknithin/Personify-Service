@@ -1,3 +1,4 @@
+from app.factory.build_base_service import BaseServiceFactory
 from app.user_service import UserService
 from bootstrap import ApplicationBootstrap
 from domain.user_model import UserModel
@@ -6,9 +7,9 @@ from infra.data.unit_of_work.factory.build_postgres_uow import (
 )
 
 
-class UserServiceFactory():
+class UserServiceFactory(BaseServiceFactory):
     def __init__(self, bootstrap: ApplicationBootstrap) -> None:
-        self._bootstrap = bootstrap
+        super().__init__(bootstrap=bootstrap)
 
     def build(self, scope: str) -> UserService:
 

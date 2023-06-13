@@ -13,8 +13,13 @@ class APIPathConstants():
 class UserActionConstants():
     SIGNUP = "/signup"
     SIGNIN = "/signin"
+    CONTACT = "/contact"
+    CONTACT_BY_ID = "/contact/{contact_id}"
 
 
 class APIEndpointV1():
     SIGNUP_URI = f'{APIPathConstants.BASE_VERSION_1}{UserActionConstants.SIGNUP}'
     SIGNIN_URI = f'{APIPathConstants.BASE_VERSION_1}{UserActionConstants.SIGNIN}'
+    CONTACT_URI = f'{APIPathConstants.BASE_VERSION_1}{UserActionConstants.CONTACT}'
+    # ruff: noqa: E501
+    CONTACT_BY_ID_URI = f'{APIPathConstants.BASE_VERSION_1}{UserActionConstants.CONTACT_BY_ID}'

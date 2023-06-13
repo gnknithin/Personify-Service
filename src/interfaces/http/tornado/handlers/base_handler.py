@@ -27,7 +27,7 @@ class BaseRequestHandler(RequestHandler):
         self.request_id: str = IdentityGenerator.get_random_id()
         self.payload: Any = None
 
-    def prepare(self) -> Optional[Awaitable[None]]:
+    def _prepare_log_context(self) -> Dict[Any, Any]:
         _load_context: Dict[Any, Any] = dict()
         _load_context[
             GenericConstants.REQUEST_ID
@@ -41,7 +41,10 @@ class BaseRequestHandler(RequestHandler):
         _load_context[
             GenericConstants.IP
         ] = self.request.remote_ip
+        return _load_context
 
+    def _set_log_context(self) -> None:
+        _load_context: Dict[Any, Any] = self._prepare_log_context()
         Logger.set_log_context(**_load_context)
 
         Logger.log(
@@ -51,8 +54,9 @@ class BaseRequestHandler(RequestHandler):
             message=GenericConstants.REQUEST
         )
 
+    def prepare(self) -> Optional[Awaitable[None]]:
+        self._set_log_context()
         self._parse_json_body()
-
         return super().prepare()
 
     def _parse_json_body(self) -> None:

@@ -3,6 +3,8 @@ from typing import Any, Dict
 
 import aiotask_context as context
 import pytest
+from app.contact_service import ContactService
+from app.factory.build_contact_service import ContactServiceFactory
 from app.factory.build_user_service import UserServiceFactory
 from app.user_service import UserService
 from bootstrap import ApplicationBootstrap
@@ -74,6 +76,11 @@ class MainApplicationTestSetup(AsyncHTTPTestCase):
 
     def get_user_service(self) -> UserService:
         return UserServiceFactory(
+            bootstrap=self.bootstrap
+        ).build(scope=self.SCOPE)
+
+    def get_contact_service(self) -> ContactService:
+        return ContactServiceFactory(
             bootstrap=self.bootstrap
         ).build(scope=self.SCOPE)
 

@@ -28,6 +28,8 @@ class GenericConstants():
     MESSAGE = "message"
     DECOMPRESS_REQUEST = "decompress_request"
     HEADER_USER_ID = "X-User-Id"
+    HEADER_LOCATION = "Location"
+    HEADER_CONTACT_ID = "X-Contact-Id"
     HEADER_AUTHORIZATION = "Authorization"
     BEARER = "Bearer"
 
@@ -88,7 +90,7 @@ class MessagesConstants():
     MSG_WORKER_NOT_FOUND = "Worker not found"
     MSG_WORKER_IS_NOT_ACTIVE = "Worker is not active"
     MSG_FACILITY_IS_NOT_ACTIVE = "Facility is not active"
-    MSG_INVALID_ID = "Invalid Id"
+    MSG_INVALID_USER_ID = "Invalid User Id"
     MSG_INVALID_QUERY_ARGUMENTS = "Invalid query arguments"
     MSG_INVALID_NEGATIVE_INTEGER = "Invalid negative number"
     MSG_PARAMETERS_OUT_OF_RANGE = "Parameters are out of range"
@@ -113,6 +115,7 @@ class RegExPatternConstants():
     MONGO = r'^(mongodb(\+srv)?:((?:\/{2})?)((\w+?):(\w+?)@|:?@?))(\S+?):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$'
     # ruff: noqa: E501
     POSTGRES_PSYCOPG2 = r'^(postgresql(\+psycopg2))?:((?:\/{2})?)((\w+?):(\w+?)(@?)(\S+?)):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$'
+    BEARER = r'^Bearer\s+(.*)'
 
 
 class MongoConstants():
