@@ -13,3 +13,14 @@ class ContactSchema(BaseSchema):
     birthday = fields.Date(required=False, allow_none=True)
     mobile = fields.String(required=False, allow_none=True)
     email = fields.Email(required=False, allow_none=True)
+
+
+class CreateContactSchema(ContactSchema):
+    class Meta:
+        exclude = (
+            FieldNameConstants.OBJECT_ID,
+            FieldNameConstants.CREATED_AT,
+            FieldNameConstants.UPDATED_AT,
+            FieldNameConstants.CONTACT_ID,
+            FieldNameConstants.USER_ID
+        )

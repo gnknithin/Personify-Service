@@ -28,36 +28,36 @@ class UserSignInHandler(BaseRequestHandler):
         description: Logs user into the system
         requestBody:
             required: True
+            description: Details required for user to login
             content:
                 application/json:
                     schema:
                         SignInSchema
         responses:
             200:
-                description: successful operation
+                description: Return Bearer Token Successfully
                 headers:
                     Authorization:
-                        description: Bearer toke
+                        description: Bearer token
                         schema:
                             type: string
-                            example: Bearer fhds98ew89y234hrfwou
-
+                            example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJoZWxsbyI6IndvcmxkIn0
             400:
-                description: Invalid request format
+                description: Bad Request or Invalid request format
                 content:
                     application/json:
                         schema:
                             BadRequestSchema
 
             404:
-                description: Invalid request content
+                description: Not Found or Invalid request content
                 content:
                     application/json:
                         schema:
                             NotFoundSchema
 
             500:
-                description: Server error
+                description: Internal Server Error
                 content:
                     application/json:
                         schema:

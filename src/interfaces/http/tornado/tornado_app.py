@@ -18,7 +18,7 @@ from interfaces.http.tornado.handlers.health_handler import HealthHandler
 from interfaces.http.tornado.handlers.v1.contact_handler import UserContactHandler
 from interfaces.http.tornado.handlers.v1.signin_handler import UserSignInHandler
 from interfaces.http.tornado.handlers.v1.signup_handler import UserSignUpHandler
-from interfaces.http.tornado.schemas.v1.contact_schema import ContactSchema
+from interfaces.http.tornado.schemas.v1.contact_schema import CreateContactSchema
 from interfaces.http.tornado.schemas.v1.user_schema import SignInSchema, SignUpSchema
 from tornado.web import Application, RequestHandler
 
@@ -112,7 +112,7 @@ class MainApplication(Application):
                 dict(
                     logger=bootstrap.logger,
                     schema_method_validators=dict(
-                        POST=ContactSchema
+                        POST=CreateContactSchema
                     ),
                     service_factory=ContactServiceFactory(bootstrap=bootstrap)
                 )

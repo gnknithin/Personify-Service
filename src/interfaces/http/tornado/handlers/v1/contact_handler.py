@@ -21,6 +21,53 @@ class UserContactHandler(BaseUserRequestHandler):
         )
 
     async def post(self):
+        """Let user create a contact
+        ---
+        tags: [Contact]
+        summary: Create Contact
+        description: Create a Contact for an user
+        requestBody:
+            required: True
+            description: Details required to create a contact
+            content:
+                application/json:
+                    schema:
+                        CreateContactSchema
+        responses:
+            201:
+                description: Created User Contact Successfully
+                headers:
+                    location:
+                        description: Contact details
+                        schema:
+                            type: string
+                            example: '/api/v1/contact/{contact_id}'
+                    X-Contact-Id:
+                        description: Contact ID
+                        schema:
+                            type: string
+                            example: fhdssfdgsghw89y234hrfwou
+            400:
+                description: Bad Request or Invalid request format
+                content:
+                    application/json:
+                        schema:
+                            BadRequestSchema
+
+            404:
+                description: Not Found or Invalid request content
+                content:
+                    application/json:
+                        schema:
+                            NotFoundSchema
+
+            500:
+                description: Internal Server Error
+                content:
+                    application/json:
+                        schema:
+                            ServerErrorSchema
+        """
         _status: int = HTTPStatus.BAD_REQUEST
         _data: Any = None
         _result: Optional[str] = self._service.addUserContact(
