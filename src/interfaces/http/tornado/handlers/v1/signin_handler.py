@@ -41,7 +41,7 @@ class UserSignInHandler(BaseRequestHandler):
                         description: Bearer token
                         schema:
                             type: string
-                            example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJoZWxsbyI6IndvcmxkIn0
+                            example: Bearer eyJhbGciOiJIUzI1NiJ9eyJoZWxsbyI6IndvcmxkIn0
             400:
                 description: Bad Request or Invalid request format
                 content:

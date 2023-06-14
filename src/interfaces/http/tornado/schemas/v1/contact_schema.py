@@ -1,9 +1,9 @@
 from infra.constants._string import FieldNameConstants
-from interfaces.http.tornado.schemas.base_schema import BaseSchema
-from marshmallow import fields
+from interfaces.http.tornado.schemas.base_schema import BaseSchema, BaseSuccessSchema
+from marshmallow import EXCLUDE, fields
 
 
-class ContactSchema(BaseSchema):
+class BaseContactSchema(BaseSchema):
     _id = fields.Str(required=False)
     created_at = fields.DateTime(required=False, format=FieldNameConstants.ISO)
     updated_at = fields.DateTime(required=False, format=FieldNameConstants.ISO)
@@ -15,7 +15,7 @@ class ContactSchema(BaseSchema):
     email = fields.Email(required=False, allow_none=True)
 
 
-class CreateContactSchema(ContactSchema):
+class ContactSchema(BaseContactSchema):
     class Meta:
         exclude = (
             FieldNameConstants.OBJECT_ID,
@@ -24,3 +24,29 @@ class CreateContactSchema(ContactSchema):
             FieldNameConstants.CONTACT_ID,
             FieldNameConstants.USER_ID
         )
+        unknown = EXCLUDE
+
+
+class UserContactSchema(BaseContactSchema):
+    class Meta:
+        exclude = (
+            FieldNameConstants.OBJECT_ID,
+            FieldNameConstants.USER_ID
+        )
+        unknown = EXCLUDE
+
+
+class UserContactDetailSchema(BaseSuccessSchema):
+    data = fields.Nested(
+        UserContactSchema,
+        required=True,
+        description='User Contact By Id'
+    )
+
+
+# class UserContactsListSchema(BaseSuccessSchema):
+#     data = fields.List(
+#         required=True,
+#         cls_or_instance=fields.Nested(UserContactSchema),
+#         description='List of User Contacts'
+#     )

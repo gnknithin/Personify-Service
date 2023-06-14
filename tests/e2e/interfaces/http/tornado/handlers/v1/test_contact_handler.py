@@ -68,7 +68,7 @@ class TestContactHandlerPostMethod(MainApplicationTestSetup):
         # ruff: noqa: E501
         _headers[
             GenericConstants.HEADER_AUTHORIZATION
-        ] = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJoZWxsbyI6IndvcmxkIn0"
+        ] = "Bearer eyJhbGciOiJIUzI1NiJ9eyJoZWxsbyI6IndvcmxkIn0"
         # Act
         response = self.fetch(
             APIEndpointV1.CONTACT_URI,
