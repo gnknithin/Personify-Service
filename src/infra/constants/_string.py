@@ -34,6 +34,20 @@ class GenericConstants():
     BEARER = "Bearer"
 
 
+class QueryConstants():
+    VALUE = "value"
+    VALIDATE_BY = "validate_by"
+    TRANSPOSE_TO = "transpose_to"
+    VALIDATED_VALUE = "validated_value"
+
+
+class HandlerQueryConstants():
+    LIMIT = "limit"
+    OFFSET = "offset"
+    LIMIT_BY = "limit_by"
+    SKIP_TO = "skip_to"
+
+
 class ColumnComparisionOperatorConstant():
     EQUAL = "__eq__"
 
