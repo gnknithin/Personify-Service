@@ -3,6 +3,7 @@ from interfaces.http.tornado.schemas.base_schema import BaseSchema, BaseSuccessS
 from marshmallow import EXCLUDE, fields
 
 
+# TODO Add Unit Tests
 class BaseContactSchema(BaseSchema):
     _id = fields.Str(required=False)
     created_at = fields.DateTime(required=False, format=FieldNameConstants.ISO)
@@ -44,9 +45,9 @@ class UserContactDetailSchema(BaseSuccessSchema):
     )
 
 
-# class UserContactsListSchema(BaseSuccessSchema):
-#     data = fields.List(
-#         required=True,
-#         cls_or_instance=fields.Nested(UserContactSchema),
-#         description='List of User Contacts'
-#     )
+class UserContactsListSchema(BaseSuccessSchema):
+    data = fields.List(
+        required=True,
+        cls_or_instance=fields.Nested(UserContactSchema),
+        description='List of User Contacts'
+    )
