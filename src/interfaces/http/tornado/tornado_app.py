@@ -123,7 +123,9 @@ class MainApplication(Application):
                 ContactIdHandler,
                 dict(
                     logger=bootstrap.logger,
-                    schema_method_validators=dict(),
+                    schema_method_validators=dict(
+                        PUT=ContactSchema
+                    ),
                     service_factory=ContactServiceFactory(bootstrap=bootstrap)
                 )
             )

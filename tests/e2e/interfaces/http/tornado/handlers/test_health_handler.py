@@ -17,9 +17,11 @@ class TestHealthHandler(MainApplicationTestSetup):
             method=HttpMethodConstants.GET,
             headers=self._get_headers()
         )
-        decoded_body = json.loads(response.body.decode(GenericConstants.UTF8))
         # Assert
         assert response.code == HTTPStatus.OK
+        decoded_body = json.loads(response.body.decode(GenericConstants.UTF8))
+        assert decoded_body is not None
+        assert isinstance(decoded_body, dict)
         assert len(decoded_body) == 1
         assert GenericConstants.SUCCESS in decoded_body
         assert isinstance(decoded_body[GenericConstants.SUCCESS], bool)

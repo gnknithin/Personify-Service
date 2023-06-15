@@ -43,10 +43,12 @@ class TestSignInHandlerPostMethod(MainApplicationTestSetup):
             headers=self._get_headers(),
             body=json.dumps(insert_data)
         )
-        decoded_body = json.loads(response.body.decode(GenericConstants.UTF8))
         # Assert
         assert response.code == HTTPStatus.BAD_REQUEST
         assert response.reason == HTTPStatus.BAD_REQUEST.phrase
+        decoded_body = json.loads(response.body.decode(GenericConstants.UTF8))
+        assert decoded_body is not None
+        assert isinstance(decoded_body, dict)
         assert len(decoded_body) == 2
         assert GenericConstants.SUCCESS in decoded_body
         assert isinstance(decoded_body[GenericConstants.SUCCESS], bool)
@@ -70,10 +72,12 @@ class TestSignInHandlerPostMethod(MainApplicationTestSetup):
             headers=self._get_headers(),
             body=json.dumps(_login_data)
         )
-        decoded_body = json.loads(response.body.decode(GenericConstants.UTF8))
         # Assert
         assert response.code == HTTPStatus.BAD_REQUEST
         assert response.reason == HTTPStatus.BAD_REQUEST.phrase
+        decoded_body = json.loads(response.body.decode(GenericConstants.UTF8))
+        assert decoded_body is not None
+        assert isinstance(decoded_body, dict)
         assert len(decoded_body) == 2
         assert GenericConstants.SUCCESS in decoded_body
         assert isinstance(decoded_body[GenericConstants.SUCCESS], bool)
@@ -160,10 +164,12 @@ class TestSignInHandlerPostMethod(MainApplicationTestSetup):
             headers=self._get_headers(),
             body=json.dumps(_login_data)
         )
-        decoded_body = json.loads(response.body.decode(GenericConstants.UTF8))
         # Assert
         assert response.code == HTTPStatus.BAD_REQUEST
         assert response.reason == HTTPStatus.BAD_REQUEST.phrase
+        decoded_body = json.loads(response.body.decode(GenericConstants.UTF8))
+        assert decoded_body is not None
+        assert isinstance(decoded_body, dict)
         assert len(decoded_body) == 2
         assert GenericConstants.SUCCESS in decoded_body
         assert isinstance(decoded_body[GenericConstants.SUCCESS], bool)

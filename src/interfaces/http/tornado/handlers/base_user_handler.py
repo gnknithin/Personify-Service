@@ -1,5 +1,6 @@
 import json
 import logging
+from abc import abstractmethod
 from http import HTTPStatus
 from typing import Any, Awaitable, Dict, List, Optional
 from uuid import UUID
@@ -16,6 +17,9 @@ from infra.generator.identity import IdentityGenerator
 from infra.generator.token import TokenGenerator
 from infra.logging.logger import Logger
 from infra.parser.token_parser import AuthenticationBearerTokenParser
+from infra.validators.query_argument.base_query_validator import (
+    BaseQueryArgumentValidator,
+)
 from interfaces.http.tornado.schemas.base_schema import BadRequestSchema
 from tornado.escape import json_decode
 from tornado.web import HTTPError, RequestHandler
@@ -27,7 +31,8 @@ class BaseUserRequestHandler(RequestHandler):
         self,
         logger: logging.Logger,
         schema_method_validators: Dict[Any, Any],
-        service_factory: BaseServiceFactory
+        service_factory: BaseServiceFactory,
+        query_argument_validator: Optional[BaseQueryArgumentValidator] = None
     ) -> None:
         self.logger = logger
         self.schema_method_validators = schema_method_validators
@@ -35,6 +40,10 @@ class BaseUserRequestHandler(RequestHandler):
         self.payload: Any = None
         self._service: Any = service_factory.build(
             scope=self.request_id)
+        if query_argument_validator is not None:
+            self.query_argument_validator: Any = query_argument_validator(
+                logger=self.logger)
+            self.validated_query_args: Optional[Dict[Any, Any]] = None
 
     def prepare(self) -> Optional[Awaitable[None]]:
         self._set_log_context()
@@ -196,3 +205,42 @@ class BaseUserRequestHandler(RequestHandler):
         self.set_status(status)
         self.write(json.dumps(data, default=str))
         self.finish()
+
+
+class BaseUserQueryableRequestHandler(BaseUserRequestHandler):
+    def initialize(
+        self,
+        logger: logging.Logger,
+        schema_method_validators: Dict[Any, Any],
+        service_factory: BaseServiceFactory,
+        query_argument_validator: Optional[BaseQueryArgumentValidator] = None
+    ) -> None:
+        super().initialize(
+            logger, schema_method_validators, service_factory=service_factory,
+            query_argument_validator=query_argument_validator
+        )
+
+    @abstractmethod
+    def _process_query_arguments(self) -> Dict[Any, Any]:
+        raise NotImplementedError
+
+    def prepare(self) -> Optional[Awaitable[None]]:
+        super().prepare()
+        try:
+            self.validated_query_args = self._process_query_arguments()
+        except ValueError as v_error:
+            self.logger.warning(v_error)
+            _status = HTTPStatus.BAD_REQUEST
+            _response = {
+                GenericConstants.SUCCESS: False,
+                GenericConstants.ERRORS: [
+                    MessagesConstants.MSG_INVALID_QUERY_ARGUMENTS,
+                    str(v_error)
+                ]
+            }
+            _data: Any = BadRequestSchema().load(data=_response)
+            self.build_response(
+                status=_status,
+                data=_data
+            )
+        return None
