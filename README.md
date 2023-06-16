@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This repo presents a proof of concept of a highly scalable Personal Server. The application was developed keeping a personal utility of an user domain in mind, but the principles used can easily applied to design software solutions for any domain. One of the primary challenges for a user application domain is the ability to expand as per requirement, giving the ability to explore more on top of exisitng. To do so, we have to architect the application that would support the scale. After understanding serveral different system architectures, a Domain-Driven Design was considered to meet the requirement. This approach holds Framework-Agnositic Design, PostgreSQL, MonogoDB and Test Driven Development.
+This repo presents a proof of concept of a highly scalable Personal Server. The application was developed keeping a personal utility of a user domain in mind, but the principles used can easily be applied to design software solutions for any domain. One of the primary challenges for a user application domain is the ability to expand as per requirement, giving the ability to explore more on top of existing. To do so, we have to architect the application supporting the scale. After understanding several different system architectures, a Domain-Driven Design was considered to meet the requirement. This approach holds Framework-Agnositic Design, PostgreSQL, MongoDB and Test Driven Development.
 
 
 ## Development Environment
@@ -15,14 +15,14 @@ At the bare minimum you'll need the following for your development environment:
 2. [PostgreSQL](https://www.postgresql.org/)
 3. [MongoDB](https://www.mongodb.com/)
 
-It is strongly recommended to also install and use the following tools:
+It is strongly recommended also to install and use the following tools:
 
 1. [virtualenv](https://python-guide.readthedocs.org/en/latest/dev/virtualenvs/#virtualenv)
 
 
 ### Local Setup
 
-The following assumes you have all of the recommended tools listed above installed.
+I have included the following for you to assume that you have all of the recommended tools listed above installed.
 
 #### Clone the project:
 
@@ -37,15 +37,15 @@ The following assumes you have all of the recommended tools listed above install
 
 ## Running the entire application stack
 
-If you have docker-compose installed and docker running; it is really simple to spin up the entire application stack.
+If you have docker-compose installed and docker running; it is really simple to spin up the entire application stack or use docker-compose as shown below.
 
 Make sure you are in the root directory of the repository where the docker-compose file is.
 
 ### Expected Environment Variables 
-All the environment variables for the application need to be specified in the docker compose file,
-this allows to seperate environment configurations concerns from our applicaiton code meaning it can easily spun up for local, development and production environments with different db credentials, ports etc.
+All the environment variables for the application need to be specified in the docker-compose file,
+this allows us to separate environment configuration concerns from our application code meaning it can easily spin up for local, development and production environments with different db credentials, ports etc.
 
-### Create an .env as following
+### Create a .env as following
 
 ```
 POSTGRES_HOST=localhost
@@ -60,7 +60,7 @@ MONGODB_PASSWORD=testenv@123
 MONGODB_DATABASE=personify
 ```
 
-#### Up Required Infrastrucutre:
+#### Up Infrastructure:
 ```
 docker-compose -f ./docker-compose.dev.yml up -d --force-recreate --renew-anon-volumes
 ```
@@ -118,7 +118,7 @@ mypy .
 
 ## Working Features
 
-Once you run the entire application stack using docker compose, you should be able access the public routes below:
+Once you run the entire application stack using docker-compose, you should be able to access the public routes below:
 
 Feature | Type | Route | Access
 ------------ | ------------- | ------------- | -------------
