@@ -1,13 +1,14 @@
 from app.contact_service import ContactService
+from app.factory.build_base_service import BaseServiceFactory
 from bootstrap import ApplicationBootstrap
 from domain.contact_model import ContactModel
 from infra.constants._string import ApplicationConstants
 from infra.data.unit_of_work.factory.build_mongo_uow import MongoUnitOfWorkFactory
 
 
-class ContactServiceFactory():
+class ContactServiceFactory(BaseServiceFactory):
     def __init__(self, bootstrap: ApplicationBootstrap) -> None:
-        self._bootstrap = bootstrap
+        super().__init__(bootstrap=bootstrap)
 
     def build(self, scope: str) -> ContactService:
 

@@ -15,8 +15,6 @@ from tornado.web import HTTPError, RequestHandler
 
 
 class BaseRequestHandler(RequestHandler):
-    payload = None
-    request_id = None
 
     def initialize(
         self,
@@ -26,10 +24,11 @@ class BaseRequestHandler(RequestHandler):
 
         self.logger = logger
         self.schema_method_validators = schema_method_validators
-        self.request_id = IdentityGenerator.get_random_id()
+        self.request_id: str = IdentityGenerator.get_random_id()
+        self.payload: Any = None
 
-    def prepare(self) -> Optional[Awaitable[None]]:
-        _load_context : Dict[Any,Any] = dict()
+    def _prepare_log_context(self) -> Dict[Any, Any]:
+        _load_context: Dict[Any, Any] = dict()
         _load_context[
             GenericConstants.REQUEST_ID
         ] = self.request_id
@@ -42,7 +41,10 @@ class BaseRequestHandler(RequestHandler):
         _load_context[
             GenericConstants.IP
         ] = self.request.remote_ip
+        return _load_context
 
+    def _set_log_context(self) -> None:
+        _load_context: Dict[Any, Any] = self._prepare_log_context()
         Logger.set_log_context(**_load_context)
 
         Logger.log(
@@ -52,8 +54,9 @@ class BaseRequestHandler(RequestHandler):
             message=GenericConstants.REQUEST
         )
 
+    def prepare(self) -> Optional[Awaitable[None]]:
+        self._set_log_context()
         self._parse_json_body()
-
         return super().prepare()
 
     def _parse_json_body(self) -> None:
@@ -62,9 +65,9 @@ class BaseRequestHandler(RequestHandler):
 
         if (
             self.request.headers[
-            HttpConstants.HEADER_CONTENT_TYPE
+                HttpConstants.HEADER_CONTENT_TYPE
             ] == HttpConstants.MIME_TYPE_JSON
-            ):
+        ):
             schema = self.__get_method_schema()
 
             received_body = self._validate_json_body(self.request.body)
@@ -88,13 +91,13 @@ class BaseRequestHandler(RequestHandler):
         return super().on_finish()
 
     def write_error(self, status_code: int, **kwargs: Any) -> None:
-        _charset : str = f'{GenericConstants.CHARSET}={GenericConstants.UTF8}'
-        _headers : str = f'{HttpConstants.MIME_TYPE_JSON}; {_charset}'
+        _charset: str = f'{GenericConstants.CHARSET}={GenericConstants.UTF8}'
+        _headers: str = f'{HttpConstants.MIME_TYPE_JSON}; {_charset}'
         self.set_header(
             name=HttpConstants.HEADER_CONTENT_TYPE,
             value=_headers
         )
-        _body : Dict[Any,Any] = dict()
+        _body: Dict[Any, Any] = dict()
         _body[
             GenericConstants.METHOD
         ] = self.request.method
@@ -121,11 +124,11 @@ class BaseRequestHandler(RequestHandler):
         self.finish(_body)
 
     def log_exception(
-            self,
-            typ: Optional[Type[BaseException]],
-            value: Optional[BaseException],
-            tb: Optional[TracebackType]
-        ) -> None:
+        self,
+        typ: Optional[Type[BaseException]],
+        value: Optional[BaseException],
+        tb: Optional[TracebackType]
+    ) -> None:
         if isinstance(value, HTTPError):
             if value.log_message:
                 msg = value.log_message % value.args
@@ -181,8 +184,8 @@ class BaseRequestHandler(RequestHandler):
         return selected_schema
 
     def _raise_invalid_request(
-            self, msg: Optional[List[Any]] = None
-        ):
+        self, msg: Optional[List[Any]] = None
+    ):
         errors: List[Any] = list()
         errors.append(MessagesConstants.MSG_INVALID_SCHEMA_VALIDATION)
         if msg is not None:

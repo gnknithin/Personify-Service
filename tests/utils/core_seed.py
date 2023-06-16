@@ -43,7 +43,7 @@ class InitializeCoreSeed():
 
     @staticmethod
     def get_date_isoformat() -> str:
-        return datetime.utcnow().date().isoformat()
+        return InitializeCoreSeed.get_date().isoformat()
 
     @staticmethod
     def get_datetime_utcnow_isoformat() -> str:

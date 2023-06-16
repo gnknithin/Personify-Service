@@ -12,3 +12,5 @@ python-dateutil
 sqlalchemy
 psycopg2-binary
 alembic
+marshmallow-sqlalchemy
+PyJWT

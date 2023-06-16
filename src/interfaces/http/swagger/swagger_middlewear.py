@@ -1,5 +1,5 @@
 import json
-from typing import Any, List
+from typing import Any, Dict, List
 
 import swagger_ui
 from apispec import APISpec
@@ -55,8 +55,7 @@ class SwaggerMiddleware():
                     url=None
                 )
             ),
-            tags=[
-            ],
+            tags=[],
             plugins=[TornadoPlugin(), MarshmallowPlugin()],
             servers=[
                 {
@@ -65,6 +64,13 @@ class SwaggerMiddleware():
                 }
             ]
         )
+        # Add Security
+        _bearerAuth: Dict[Any, Any] = dict()
+        _bearerAuth["type"] = "http"
+        _bearerAuth["scheme"] = "bearer"
+        _bearerAuth["bearerFormat"] = "JWT"
+        _bearerAuth["example"] = "Bearer eyJhbGciOiJIUzI1NiJ9eyJoZWxsbyI6IndvcmxkIn0"
+        spec.components.security_scheme("bearerAuth", _bearerAuth)
 
         for handler in handlers:
             try:

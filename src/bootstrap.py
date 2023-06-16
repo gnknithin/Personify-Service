@@ -26,8 +26,6 @@ from tornado.httpserver import HTTPServer
 class BaseBootstrap(ABC):
     configuration: Dict[Any, Any]
     logger: logging.Logger
-    postgres_adapter: PostgresAdapter
-    mongo_adapter: PyMongoAdapter
 
     def __init__(self, bootstrap_args: Namespace) -> None:
         self.__post_init__(
@@ -39,6 +37,27 @@ class BaseBootstrap(ABC):
             args=configuration_args
         )
         self.logger = self._logger_initialization()
+
+    def _logger_initialization(self) -> logging.Logger:
+        logging.config.dictConfig(
+            self.configuration[ConfigurationConstants.LOGGING]
+        )
+        return logging.getLogger(ApplicationConstants.LOGGER_NAME)
+
+    def _configuration_initialization(self, args: Namespace) -> Dict[Any, Any]:
+        return yaml.load(args.config.read(), Loader=yaml.SafeLoader)
+
+
+@dataclass
+class ApplicationBootstrap(BaseBootstrap):
+    configuration: Dict[Any, Any]
+    logger: logging.Logger
+    postgres_adapter: PostgresAdapter
+    mongo_adapter: PyMongoAdapter
+    server: Optional[HTTPServer] = None
+
+    def __init__(self, bootstrap_args: Namespace) -> None:
+        super().__init__(bootstrap_args=bootstrap_args)
         self._postgres_initialization()
         self._mongo_initialization()
 
@@ -131,24 +150,3 @@ class BaseBootstrap(ABC):
             raise ConnectionError(
                 f'Could not connect to the postgres database: {_host}'
             )
-
-    def _logger_initialization(self) -> logging.Logger:
-        logging.config.dictConfig(
-            self.configuration[ConfigurationConstants.LOGGING]
-        )
-        return logging.getLogger(ApplicationConstants.LOGGER_NAME)
-
-    def _configuration_initialization(self, args: Namespace) -> Dict[Any, Any]:
-        return yaml.load(args.config.read(), Loader=yaml.SafeLoader)
-
-
-@dataclass
-class ApplicationBootstrap(BaseBootstrap):
-    configuration: Dict[Any, Any]
-    logger: logging.Logger
-    postgres_adapter: PostgresAdapter
-    mongo_adapter: PyMongoAdapter
-    server: Optional[HTTPServer] = None
-
-    def __init__(self, bootstrap_args: Namespace) -> None:
-        super().__init__(bootstrap_args=bootstrap_args)

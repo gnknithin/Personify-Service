@@ -15,7 +15,7 @@ logging:
       class: logging.handlers.RotatingFileHandler
       level: DEBUG
       formatter: detailed
-      filename: /tmp/customers-service-app.log
+      filename: /tmp/personify-service-app.log
       backupCount: 3
   loggers:
     alembic:

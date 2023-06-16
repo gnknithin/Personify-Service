@@ -1,11 +1,9 @@
-from marshmallow import Schema, fields
-
 from infra.constants._string import MessagesConstants
+from marshmallow import Schema, fields
 
 
 class BaseSchema(Schema):
-    class Meta:
-        ordered = True
+    ...
 
 
 class BaseSuccessSchema(BaseSchema):

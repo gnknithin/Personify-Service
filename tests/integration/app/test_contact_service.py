@@ -103,6 +103,7 @@ class TestContactService(BaseIntegrationTest):
             contact_id=contact_id
         ) is True
 
+    # TODO Un-Comment OR Remove
     # def test_should_use_get_and_get_by_key_and_delete_successfuly(
     #     self,
     #     init_bootstrap: ApplicationBootstrap
