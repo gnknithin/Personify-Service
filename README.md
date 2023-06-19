@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This repo presents a proof of concept of a highly scalable Personal Server. The application was developed keeping a personal utility of a user domain in mind, but the principles used can easily be applied to design software solutions for any domain. One of the primary challenges for a user application domain is the ability to expand as per requirement, giving the ability to explore more on top of existing. To do so, we have to architect the application supporting the scale. After understanding several different system architectures, a Domain-Driven Design was considered to meet the requirement. This approach holds Framework-Agnositic Design, PostgreSQL, MongoDB and Test Driven Development.
+A proof of concept of a highly scalable Personal Server. The application was developed keeping a personal utility of a user domain in mind, but the principles used can easily be applied to design software solutions for any domain. One of the primary challenges for a user application domain is the ability to expand as per requirement, giving the ability to explore more on top of existing. To do so, we have to architect the application supporting the scale. After understanding several different system architectures, a Domain-Driven Design was considered to meet the requirement. This approach holds Framework-Agnositic Design, PostgreSQL, MongoDB and Test Driven Development.
 
 
 ## Development Environment
