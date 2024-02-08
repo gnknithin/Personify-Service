@@ -1,17 +1,19 @@
 version: '3.7'
 services:
   postgres-db:
+    container_name: personify-postgres-db
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: testenv@123
+      POSTGRES_PASSWORD: testenv123
       POSTGRES_USER: personifydev
       POSTGRES_DB: personify
     ports:
       - 5432:5432
     networks:
       - personify-dev-net
-  postgres-adminer:
+  postgres-ui:
+    container_name: personify-postgres-ui
     image: adminer
     restart: always
     depends_on:
@@ -20,38 +22,42 @@ services:
       - 8080:8080
     networks:
       - personify-dev-net
-  mongodb:
+  mongo-db:
+    container_name: personify-mongo-db
     image: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: personifydev
-      MONGO_INITDB_ROOT_PASSWORD: testenv@123
+      MONGO_INITDB_ROOT_PASSWORD: testenv123
     command: [ --auth ]
     ports:
       - 27017:27017
     networks:
       - personify-dev-net
-  db-admin:
+  mongo-db-ui:
+    container_name: personify-mongo-db-ui
     image: mongo-express
     restart: always
     ports:
       - 8081:8081
     depends_on:
-      - mongodb
+      - mongo-db
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: personifydev
-      ME_CONFIG_MONGODB_ADMINPASSWORD: testenv@123
-      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINPASSWORD: testenv123
+      ME_CONFIG_MONGODB_URL: mongodb://personifydev:testenv123@mongo-db:27017/
+      ME_CONFIG_BASICAUTH: false
     networks:
       - personify-dev-net
   minio:
+    container_name: personify-minio
     image: minio/minio
     ports:
       - 9000:9000
       - 9001:9001
     environment:
       MINIO_ROOT_USER: personifydev
-      MINIO_ROOT_PASSWORD: testenv@123
+      MINIO_ROOT_PASSWORD: testenv123
     volumes:
       - minio_storage:/data
     command: server --console-address ":9001" /data

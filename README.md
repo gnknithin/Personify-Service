@@ -50,13 +50,13 @@ this allows us to separate environment configuration concerns from our applicati
 ```
 POSTGRES_HOST=localhost
 POSTGRES_USER=personifydev
-POSTGRES_PASSWORD=testenv@123
+POSTGRES_PASSWORD=testenv123
 POSTGRES_DATABASE=personify
 APPLY_MIGRATIONS=1
 ALEMBIC_CONFIG=src/infra/data/migrations/alembic.ini
 MONGODB_HOST=localhost
 MONGODB_USERNAME=personifydev
-MONGODB_PASSWORD=testenv@123
+MONGODB_PASSWORD=testenv123
 MONGODB_DATABASE=personify
 ```
 

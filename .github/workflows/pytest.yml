@@ -20,7 +20,7 @@ jobs:
       postgres-db:
         image: postgres
         env:
-          POSTGRES_PASSWORD: testenv@123
+          POSTGRES_PASSWORD: testenv123
           POSTGRES_USER: personifydev
           POSTGRES_DB: personify
         ports:
@@ -29,7 +29,7 @@ jobs:
         image: mongo
         env:
           MONGO_INITDB_ROOT_USERNAME: personifydev
-          MONGO_INITDB_ROOT_PASSWORD: testenv@123
+          MONGO_INITDB_ROOT_PASSWORD: testenv123
         ports:
           - 27017:27017
     steps:
