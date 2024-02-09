@@ -32,7 +32,7 @@ class BaseBootstrap(ABC):
             configuration_args=bootstrap_args
         )
 
-    def __post_init__(self, configuration_args: Namespace) -> None:
+    def __post_init__(self, configuration_args: Namespace) -> None: #type: ignore[override]
         self.configuration = self._configuration_initialization(
             args=configuration_args
         )
