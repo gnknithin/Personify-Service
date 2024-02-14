@@ -1,12 +1,12 @@
-class ApplicationConstants():
+class ApplicationConstants:
     SERVICE_NAME = "personify-service"
     LOGGER_NAME = "personify-service"
-    DATABSE_NAME_PERSONIFY = 'personify'
-    TABLE_NAME_USERS = 'users'
-    COLLECTION_NAME_CONTACTS = 'contacts'
+    DATABSE_NAME_PERSONIFY = "personify"
+    TABLE_NAME_USERS = "users"
+    COLLECTION_NAME_CONTACTS = "contacts"
 
 
-class GenericConstants():
+class GenericConstants:
     UTF8 = "UTF-8"
     CHARSET = "charset"
     ERROR = "error"
@@ -34,30 +34,30 @@ class GenericConstants():
     BEARER = "Bearer"
 
 
-class QueryConstants():
+class QueryConstants:
     VALUE = "value"
     VALIDATE_BY = "validate_by"
     TRANSPOSE_TO = "transpose_to"
     VALIDATED_VALUE = "validated_value"
 
 
-class HandlerQueryConstants():
+class HandlerQueryConstants:
     LIMIT = "limit"
     OFFSET = "offset"
     LIMIT_BY = "limit_by"
     SKIP_TO = "skip_to"
 
 
-class ColumnComparisionOperatorConstant():
+class ColumnComparisionOperatorConstant:
     EQUAL = "__eq__"
 
 
-class ConfigurationConstants():
+class ConfigurationConstants:
     LOGGER = "logger"
     LOGGING = "logging"
 
 
-class HttpMethodConstants():
+class HttpMethodConstants:
     GET = "GET"
     POST = "POST"
     PUT = "PUT"
@@ -65,7 +65,7 @@ class HttpMethodConstants():
     PATCH = "PATCH"
 
 
-class HttpConstants():
+class HttpConstants:
     HEADER_CONTENT_TYPE = "Content-Type"
     MIME_TYPE_JSON = "application/json"
     OPERATIONS = [
@@ -73,24 +73,24 @@ class HttpConstants():
         HttpMethodConstants.POST,
         HttpMethodConstants.PUT,
         HttpMethodConstants.DELETE,
-        HttpMethodConstants.PATCH
+        HttpMethodConstants.PATCH,
     ]
     READONLY_OPERATIONS = ["GET", "HEAD", "OPTIONS"]
     WRITE_OPERATIONS = [
         HttpMethodConstants.POST,
         HttpMethodConstants.PUT,
-        HttpMethodConstants.PATCH
+        HttpMethodConstants.PATCH,
     ]
 
 
-class MessagesConstants():
+class MessagesConstants:
     MSG_UNKNOWN_ENDPOINT = "Unknown Endpoint"
     MSG_RESULT_OF_SERVICE_CALL = "Result status of service call - SHOULD BE FALSE"
     MSG_REASON_FOR_FAILED_REQUEST = "".join(
         [
             "Reason for failed request (sender).",
             " ",
-            "Could be a string or a dictionary"
+            "Could be a string or a dictionary",
         ]
     )
     MSG_BAD_PARAMETER_INPUT_FORMAT = "Bad parameter input format"
@@ -112,7 +112,7 @@ class MessagesConstants():
     MSG_INVALID_PASSWORD = "Invalid password"
 
 
-class SwaggerConstants():
+class SwaggerConstants:
     API_OUTPUT_FILE = "./src/interfaces/http/swagger/swagger.json"
     OPEN_API_VERSION = "3.0.2"
     CURRENT_MAJOR_API_VERSION = "v1"
@@ -123,30 +123,38 @@ class SwaggerConstants():
     AUTHOR_EMAIL = "gnknithin@gmail.com"
 
 
-class RegExPatternConstants():
-    FQDN = r'(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{0,62}[a-zA-Z0-9]\.)+[a-zA-Z]{2,63}$)'
+class RegExPatternConstants:
+    FQDN = r"(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{0,62}[a-zA-Z0-9]\.)+[a-zA-Z]{2,63}$)"
     # ruff: noqa: E501
-    MONGO = r'^(mongodb(\+srv)?:((?:\/{2})?)((\w+?):(\w+?)@|:?@?))(\S+?):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$'
+    MONGO = r"^(mongodb(\+srv)?:((?:\/{2})?)((\w+?):(\w+?)@|:?@?))(\S+?):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$"
     # ruff: noqa: E501
-    POSTGRES_PSYCOPG2 = r'^(postgresql(\+psycopg2))?:((?:\/{2})?)((\w+?):(\w+?)(@?)(\S+?)):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$'
-    BEARER = r'^Bearer\s+(.*)'
+    POSTGRES_PSYCOPG2 = r"^(postgresql(\+psycopg2))?:((?:\/{2})?)((\w+?):(\w+?)(@?)(\S+?)):?(\d+)?\/(\w+)?(\?(\w+=\w+(\&)?)*)?$"
+    BEARER = r"^Bearer\s+(.*)"
 
 
-class MongoConstants():
+class MinioConstants:
+    # Add to Other Places like MONGODB_HOST
+    ENVVAR_MINIO_HOST = "MINIO_HOST"
+    ENVVAR_MINIO_ACCESS_KEY = "MINIO_ACCESS_KEY"
+    ENVVAR_MINIO_SECRET_KEY = "MINIO_SECRET_KEY"
+    ENVVAR_MINIO_BUCKET_NAME = "MINIO_BUCKET_NAME"
+
+
+class MongoConstants:
     ENVVAR_MONGODB_HOST = "MONGODB_HOST"
     ENVVAR_MONGODB_USERNAME = "MONGODB_USERNAME"
     ENVVAR_MONGODB_PASSWORD = "MONGODB_PASSWORD"
     ENVVAR_MONGODB_DATABASE = "MONGODB_DATABASE"
 
 
-class PostgresConstants():
+class PostgresConstants:
     ENVVAR_POSTGRES_HOST = "POSTGRES_HOST"
     ENVVAR_POSTGRES_USERNAME = "POSTGRES_USER"
     ENVVAR_POSTGRES_PASSWORD = "POSTGRES_PASSWORD"
     ENVVAR_POSTGRES_DATABASE = "POSTGRES_DATABASE"
 
 
-class FieldNameConstants():
+class FieldNameConstants:
     ISO = "iso"
     CREATED_AT = "created_at"
     UPDATED_AT = "updated_at"
@@ -167,7 +175,7 @@ class FieldNameConstants():
     ACTIVE = "active"
 
 
-class MongoDBKeywordConstants():
+class MongoDBKeywordConstants:
     DOCUMENT = "document"
     DOCUMENTS = "documents"
     SESSION = "session"
@@ -181,12 +189,12 @@ class MongoDBKeywordConstants():
     OPERATOR_IN = "$in"
 
 
-class MigrateEngineConstants():
+class MigrateEngineConstants:
     CONNECTION = "connection"
     HEAD = "head"
     MIGRATION_CONFIG_FILE = "src/infra/data/migrations/alembic.ini"
 
 
-class AlembicConstants():
-    ENVVAR_APPLY_MIGRATIONS_NAME = 'APPLY_MIGRATIONS'
-    ENVVAR_ALAMBIC_CONFIG_NAME = 'ALEMBIC_CONFIG'
+class AlembicConstants:
+    ENVVAR_APPLY_MIGRATIONS_NAME = "APPLY_MIGRATIONS"
+    ENVVAR_ALAMBIC_CONFIG_NAME = "ALEMBIC_CONFIG"
