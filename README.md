@@ -58,6 +58,12 @@ MONGODB_HOST=localhost
 MONGODB_USERNAME=personifydev
 MONGODB_PASSWORD=testenv123
 MONGODB_DATABASE=personify
+MINIO_HOST=localhost
+MINIO_PORT=9000
+MINIO_SECURE=False
+MINIO_ACCESS_KEY=personifydev
+MINIO_SECRET_KEY=testenv123
+MINIO_BUCKET_NAME=personify
 ```
 
 #### Up Infrastructure:

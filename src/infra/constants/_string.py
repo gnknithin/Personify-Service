@@ -133,7 +133,6 @@ class RegExPatternConstants:
 
 
 class MinioConstants:
-    # Add to Other Places like MONGODB_HOST
     ENVVAR_MINIO_HOST = "MINIO_HOST"
     ENVVAR_MINIO_PORT = "MINIO_PORT"
     ENVVAR_MINIO_ACCESS_KEY = "MINIO_ACCESS_KEY"
