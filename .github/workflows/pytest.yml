@@ -9,6 +9,12 @@ env:
   MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
   MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
   MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+  MINIO_HOST: ${{ secrets.MINIO_HOST }}
+  MINIO_PORT: ${{ secrets.MINIO_PORT }}
+  MINIO_SECURE: ${{ secrets.MINIO_SECURE }}
+  MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+  MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
+  MINIO_BUCKET_NAME: ${{ secrets.MINIO_BUCKET_NAME }}
 on: [push]
 jobs:
   run_pytest:
@@ -32,6 +38,14 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: testenv123
         ports:
           - 27017:27017
+      minio:
+        image: minio/minio
+        ports:
+          - 9000:9000
+          - 9001:9001
+        env:
+          MINIO_ROOT_USER: personifydev
+          MINIO_ROOT_PASSWORD: testenv123
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
