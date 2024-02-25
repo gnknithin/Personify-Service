@@ -65,9 +65,7 @@ class ApplicationBootstrap(BaseBootstrap):
         _port: int = int(os.environ.get(MinioConstants.ENVVAR_MINIO_PORT, 9000))
         _access_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_ACCESS_KEY, "")
         _secret_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_SECRET_KEY, "")
-        _secure: bool = eval(
-            os.environ.get(MinioConstants.ENVVAR_MINIO_SECURE, "Flase")
-        )
+        _secure: bool = eval(os.environ.get(MinioConstants.ENVVAR_MINIO_SECURE, ""))
         # _bucket: str = os.environ.get(MinioConstants.ENVVAR_MINIO_BUCKET_NAME)
 
         _server: str = f"{_host}:{_port}"
@@ -80,9 +78,10 @@ class ApplicationBootstrap(BaseBootstrap):
         )
         self.logger.info(msg=f"Host = {_host}")
         self.logger.info(msg=f"Port = {_port}")
-        self.logger.info(msg=f"Server = {_server}")
         self.logger.info(msg=f"Access Key = {_access_key}")
         self.logger.info(msg=f"Secret Key = {_secret_key}")
+        self.logger.info(msg=f"Secure = {_secure}")
+        self.logger.info(msg=f"Secure Type = {type(_secure)}")
         self.logger.info(msg=f"Minio  = {_minio_credentials}")
         self.minio_adapter = MinioAdapter(logger=self.logger, **_minio_credentials)
         # _minio_msg = f"MINIO CONNECTIVITY with {_host}"
