@@ -39,7 +39,7 @@ jobs:
         ports:
           - 27017:27017
       minio:
-        image: minio/minio
+        image: lazybit/minio
         ports:
           - 9000:9000
         env:
@@ -48,7 +48,7 @@ jobs:
           MINIO_ACCESS_KEY: personifydev
           MINIO_SECRET_KEY: testenv123
         volumes:
-          - ${{ github.workspace }}:/data
+          - ${{ github.workspace }}/data:/data
         options: --name=minio --health-cmd "curl http://localhost:9000/minio/health/live"
     steps:
       - uses: actions/checkout@v3
