@@ -9,7 +9,6 @@ env:
   MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
   MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
   MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-  MINIO_ENDPOINT : ${{ secrets.MINIO_ENDPOINT }}
   MINIO_HOST: ${{ secrets.MINIO_HOST }}
   MINIO_PORT: ${{ secrets.MINIO_PORT }}
   MINIO_SECURE: ${{ secrets.MINIO_SECURE }}
@@ -24,6 +23,12 @@ jobs:
       matrix:
         python-version: ["3.8"]
     services:
+      minio:
+        image: minio/minio:edge-cicd
+        env:
+          MINIO_ROOT_USER: personifydev
+          MINIO_ROOT_PASSWORD: testenv123
+        options: --health-cmd "curl -s http://localhost:9000/minio/health/live"
       postgres-db:
         image: postgres
         env:
@@ -39,14 +44,6 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: testenv123
         ports:
           - 27017:27017
-      minio:
-        image: minio/minio:edge-cicd
-        ports:
-          - 9000:9000
-        env:
-          MINIO_ROOT_USER: personifydev
-          MINIO_ROOT_PASSWORD: testenv123
-        options: --health-cmd "curl -s http://localhost:9000/minio/health/live"
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
