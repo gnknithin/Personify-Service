@@ -26,16 +26,16 @@ jobs:
       postgres-db:
         image: postgres
         env:
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DATABASE }}
+          POSTGRES_PASSWORD: testenv123
+          POSTGRES_USER: personifydev
+          POSTGRES_DB: personify
         ports:
           - 5432:5432
       mongo-db:
         image: mongo
         env:
-          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+          MONGO_INITDB_ROOT_USERNAME: personifydev
+          MONGO_INITDB_ROOT_PASSWORD: testenv123
         ports:
           - 27017:27017
       minio:
@@ -44,10 +44,10 @@ jobs:
           - 9000:9000
           - 9001:9001
         env:
-          MINIO_ROOT_USER: ${{ secrets.MINIO_ACCESS_KEY }}
-          MINIO_ROOT_PASSWORD: ${{ secrets.MINIO_SECRET_KEY }}
+          MINIO_ROOT_USER: personifydev
+          MINIO_ROOT_PASSWORD: testenv123
         volumes:
-          - ${{ github.workspace }}/data:/data
+          - ${{ github.workspace }}:/data
         options: server --console-address ":9001" /data
     steps:
       - uses: actions/checkout@v3
