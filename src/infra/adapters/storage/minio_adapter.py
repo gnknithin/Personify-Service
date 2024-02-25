@@ -22,6 +22,7 @@ class MinioAdapter(BaseStorageAdapter):
         self._logger.info(msg=f"Access Key = {access_key}")
         self._logger.info(msg=f"Secret Key = {secret_key}")
         self._logger.info(msg=f"Secure = {secure}")
+        self._logger.info(msg=f"Secure Type = {type(secure)}")
         self._client = Minio(
             endpoint=host, access_key=access_key, secret_key=secret_key, secure=secure
         )
