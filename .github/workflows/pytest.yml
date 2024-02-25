@@ -39,14 +39,17 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: testenv123
         ports:
           - 27017:27017
+      minio:
+        image: minio/minio
+        volumes:
+          - /data
+        ports:
+          - 9000:9000
+        env:
+          MINIO_ACCESS_KEY: personifydev
+          MINIO_SECRET_KEY: testenv123
+        options: --entrypoint "minio server /data" --health-cmd "curl -f http://localhost:9000/minio/health/live" --health-interval 10s --health-timeout 5s --health-retries 5  
     steps:
-      - name: Minio Deploy
-        uses: mamal72/minio-perfect-deploy-action@main
-        with:
-          endpoint: ${{ secrets.MINIO_ENDPOINT }}
-          access_key: ${{ secrets.MINIO_ACCESS_KEY }}
-          secret_key: ${{ secrets.MINIO_SECRET_KEY }}
-          bucket: ${{ secrets.MINIO_BUCKET_NAME }}
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
