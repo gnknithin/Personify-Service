@@ -45,6 +45,8 @@ jobs:
         env:
           MINIO_ROOT_USER: personifydev
           MINIO_ROOT_PASSWORD: testenv123
+          MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+          MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
         volumes:
           - ${{ github.workspace }}:/data
         options: --name=minio --health-cmd "curl http://localhost:9000/minio/health/live"
