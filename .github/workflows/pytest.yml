@@ -41,13 +41,11 @@ jobs:
           - 27017:27017
       minio:
         image: minio/minio:edge-cicd
-        volumes:
-          - /data
         ports:
           - 9000:9000
         env:
-          MINIO_ACCESS_KEY: personifydev
-          MINIO_SECRET_KEY: testenv123
+          MINIO_ROOT_USER: personifydev
+          MINIO_ROOT_PASSWORD: testenv123
         options: --health-cmd "curl -s http://localhost:9000/minio/health/live"
     steps:
       - uses: actions/checkout@v3
