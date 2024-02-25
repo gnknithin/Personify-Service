@@ -65,7 +65,8 @@ class ApplicationBootstrap(BaseBootstrap):
         _port: int = int(os.environ.get(MinioConstants.ENVVAR_MINIO_PORT, 9000))
         _access_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_ACCESS_KEY, "")
         _secret_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_SECRET_KEY, "")
-        _secure: bool = eval(os.environ.get(MinioConstants.ENVVAR_MINIO_SECURE, ""))
+        _secure: bool = True if (os.environ.get(MinioConstants.ENVVAR_MINIO_SECURE, "True") == "True") else False
+
         # _bucket: str = os.environ.get(MinioConstants.ENVVAR_MINIO_BUCKET_NAME)
 
         _server: str = f"{_host}:{_port}"
