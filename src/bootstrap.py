@@ -78,7 +78,12 @@ class ApplicationBootstrap(BaseBootstrap):
             secret_key=_secret_key,
             secure=_secure,
         )
-        self.logger.info(msg=f"{_minio_credentials}")
+        self.logger.info(msg=f"Host = {_host}")
+        self.logger.info(msg=f"Port = {_port}")
+        self.logger.info(msg=f"Server = {_server}")
+        self.logger.info(msg=f"Access Key = {_access_key}")
+        self.logger.info(msg=f"Secret Key = {_secret_key}")
+        self.logger.info(msg=f"Minio  = {_minio_credentials}")
         self.minio_adapter = MinioAdapter(logger=self.logger, **_minio_credentials)
         # _minio_msg = f"MINIO CONNECTIVITY with {_host}"
         # self.logger.info(msg=f"STARTING {_minio_msg}")
