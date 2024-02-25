@@ -17,6 +17,7 @@ class MinioAdapter(BaseStorageAdapter):
         secure: bool,
     ) -> None:
         super().__init__(logger)
+        self._logger.info(msg=f"Secure = {secure}")
         self._client = Minio(
             endpoint=host, access_key=access_key, secret_key=secret_key, secure=secure
         )
@@ -42,3 +43,6 @@ class MinioAdapter(BaseStorageAdapter):
 
     def delete_bucket(self, bucket_name: str) -> None:
         return self.client.remove_bucket(bucket_name=bucket_name)
+
+    # def create_object(self, bucket_name: str, object_name: str, data: str):
+    #     return self.client.put_object()

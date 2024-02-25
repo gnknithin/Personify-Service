@@ -26,16 +26,16 @@ jobs:
       postgres-db:
         image: postgres
         env:
-          POSTGRES_PASSWORD: testenv123
-          POSTGRES_USER: personifydev
-          POSTGRES_DB: personify
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DATABASE }}
         ports:
           - 5432:5432
       mongo-db:
         image: mongo
         env:
-          MONGO_INITDB_ROOT_USERNAME: personifydev
-          MONGO_INITDB_ROOT_PASSWORD: testenv123
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
         ports:
           - 27017:27017
       minio:
@@ -44,6 +44,8 @@ jobs:
           - 9000:9000
           - 9001:9001
         env:
+          MINIO_ROOT_USER: personifydev
+          MINIO_ROOT_PASSWORD: testenv123
           MINIO_ACCESS_KEY: personifydev
           MINIO_SECRET_KEY: testenv123
     steps:
