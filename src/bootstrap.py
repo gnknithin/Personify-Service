@@ -61,11 +61,13 @@ class ApplicationBootstrap(BaseBootstrap):
         self._minio_initialization()
 
     def _minio_initialization(self) -> None:
-        _host: str = os.environ.get(MinioConstants.ENVVAR_MINIO_HOST)
-        _port: int = int(os.environ.get(MinioConstants.ENVVAR_MINIO_PORT))
-        _access_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_ACCESS_KEY)
-        _secret_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_SECRET_KEY)
-        _secure: bool = eval(os.environ.get(MinioConstants.ENVVAR_MINIO_SECURE))
+        _host: str = os.environ.get(MinioConstants.ENVVAR_MINIO_HOST, "")
+        _port: int = int(os.environ.get(MinioConstants.ENVVAR_MINIO_PORT, 9000))
+        _access_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_ACCESS_KEY, "")
+        _secret_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_SECRET_KEY, "")
+        _secure: bool = eval(
+            os.environ.get(MinioConstants.ENVVAR_MINIO_SECURE, "Flase")
+        )
         # _bucket: str = os.environ.get(MinioConstants.ENVVAR_MINIO_BUCKET_NAME)
 
         _server: str = f"{_host}:{_port}"
