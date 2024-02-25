@@ -48,7 +48,9 @@ jobs:
         env:
           MINIO_ACCESS_KEY: personifydev
           MINIO_SECRET_KEY: testenv123
-        options: --entrypoint "minio server /data" --health-cmd "curl -f http://localhost:9000/minio/health/live" --health-interval 10s --health-timeout 5s --health-retries 5  
+          MINIO_ROOT_USER: personifydev
+          MINIO_ROOT_PASSWORD: testenv123
+        options: --health-cmd "curl -s http://localhost:9000/minio/health/live"
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
