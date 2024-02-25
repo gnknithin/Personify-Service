@@ -25,6 +25,8 @@ jobs:
     services:
       minio:
         image: minio/minio:edge-cicd
+        ports:
+          - 9000:9000
         env:
           MINIO_ROOT_USER: personifydev
           MINIO_ROOT_PASSWORD: testenv123
