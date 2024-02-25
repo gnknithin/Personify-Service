@@ -44,8 +44,8 @@ jobs:
           - 9000:9000
           - 9001:9001
         env:
-          MINIO_ROOT_USER: personifydev
-          MINIO_ROOT_PASSWORD: testenv123
+          MINIO_ACCESS_KEY: personifydev
+          MINIO_SECRET_KEY: testenv123
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
