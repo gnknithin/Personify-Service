@@ -48,7 +48,6 @@ jobs:
           MINIO_ROOT_PASSWORD: testenv123
         volumes:
           - ${{ github.workspace }}:/data
-        options: server --console-address ":9001" /data
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
