@@ -14,6 +14,7 @@ At the bare minimum you'll need the following for your development environment:
 1. [Python](http://www.python.org/)
 2. [PostgreSQL](https://www.postgresql.org/)
 3. [MongoDB](https://www.mongodb.com/)
+4. [MinIO](https://min.io/)
 
 It is strongly recommended also to install and use the following tools:
 
