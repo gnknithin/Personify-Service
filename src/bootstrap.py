@@ -11,6 +11,7 @@ import yaml
 from infra.adapters.database.mongo.pymongo_adapter import PyMongoAdapter
 from infra.adapters.database.postgres.postgres_adapter import PostgresAdapter
 from infra.adapters.storage.minio_adapter import MinioAdapter
+from infra.adapters.storage.minio_admin_adapter import MinIOAdminAdapter
 from infra.constants._string import (
     AlembicConstants,
     ApplicationConstants,
@@ -50,6 +51,7 @@ class ApplicationBootstrap(BaseBootstrap):
     logger: logging.Logger
     postgres_adapter: PostgresAdapter
     mongo_adapter: PyMongoAdapter
+    minio_admin_adapter: MinIOAdminAdapter
     minio_adapter: MinioAdapter
     server: Optional[HTTPServer] = None
 
@@ -65,7 +67,11 @@ class ApplicationBootstrap(BaseBootstrap):
         _port: int = int(os.environ.get(MinioConstants.ENVVAR_MINIO_PORT, 9000))
         _access_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_ACCESS_KEY, "")
         _secret_key: str = os.environ.get(MinioConstants.ENVVAR_MINIO_SECRET_KEY, "")
-        _secure: bool = True if (os.environ.get(MinioConstants.ENVVAR_MINIO_SECURE, "True") == "True") else False
+        _secure: bool = (
+            True
+            if (os.environ.get(MinioConstants.ENVVAR_MINIO_SECURE, "True") == "True")
+            else False
+        )
 
         # _bucket: str = os.environ.get(MinioConstants.ENVVAR_MINIO_BUCKET_NAME)
 
@@ -77,28 +83,22 @@ class ApplicationBootstrap(BaseBootstrap):
             secret_key=_secret_key,
             secure=_secure,
         )
-        self.logger.info(msg=f"Host = {_host}")
-        self.logger.info(msg=f"Port = {_port}")
-        self.logger.info(msg=f"Access Key = {_access_key}")
-        self.logger.info(msg=f"Secret Key = {_secret_key}")
-        self.logger.info(msg=f"Secure = {_secure}")
-        self.logger.info(msg=f"Secure Type = {type(_secure)}")
-        self.logger.info(msg=f"Minio  = {_minio_credentials}")
-        self.minio_adapter = MinioAdapter(logger=self.logger, **_minio_credentials)
-        # _minio_msg = f"MINIO CONNECTIVITY with {_host}"
-        # self.logger.info(msg=f"STARTING {_minio_msg}")
-        # if self.minio_adapter.get_bucket_policy(name=_bucket):
-        #     self.logger.info(
-        #         msg=f"SUCCESSFUL {_minio_msg}",
-        #     )
+        self.minio_admin_adapter = MinIOAdminAdapter(
+            logger=self.logger, **_minio_credentials
+        )
+        _minio_msg = f"MINIO CONNECTIVITY with {_host}"
+        self.logger.info(msg=f"STARTING {_minio_msg}")
+        if self.minio_admin_adapter.check_avilability():
+            self.logger.info(
+                msg=f"SUCCESSFUL {_minio_msg}",
+            )
+            self.minio_adapter = MinioAdapter(logger=self.logger, **_minio_credentials)
+        else:
+            self.logger.error(
+                msg=f"FAILED {_minio_msg}",
+            )
 
-        # else:
-        #     self.logger.error(
-        #         msg=f"FAILED {_minio_msg}",
-        #     )
-
-        #     raise ConnectionError(f"Could not connect to the minio storage: {_host}")
-        pass
+            raise ConnectionError(f"Could not connect to the minio storage: {_host}")
 
     def _mongo_initialization(self) -> None:
         _host = os.environ.get(MongoConstants.ENVVAR_MONGODB_HOST)
