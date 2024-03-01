@@ -65,6 +65,8 @@ MINIO_SECURE="False"
 MINIO_ACCESS_KEY=personifydev
 MINIO_SECRET_KEY=testenv123
 MINIO_BUCKET_NAME=personify
+MINIO_APP_USER_ACCESS_KEY=appuserdev
+MINIO_APP_USER_SECRET_KEY=appuserdevenv123
 ```
 
 #### Up Infrastructure:
