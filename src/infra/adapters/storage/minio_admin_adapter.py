@@ -32,14 +32,48 @@ class MinIOAdminAdapter(BaseStorageAdapter):
     def admin(self) -> MinioAdmin:
         return self._admin
 
-    def info(self) -> Dict[Any, Any]:
-
+    def server_info(self) -> Dict[Any, Any]:
         return loads(self._admin.info())
 
     def check_avilability(self) -> bool:
         _result: bool = False
-        _response = self.info()
+        _response = self.server_info()
         if "mode" in _response:
             if _response["mode"] == "online":
                 _result = True
         return _result
+
+    def add_user(self, user_access_key: str, user_secret_key: str) -> str:
+        return self.admin.user_add(
+            access_key=user_access_key, secret_key=user_secret_key
+        )
+
+    def get_user_info(self, user_access_key: str) -> Dict[Any, Any]:
+        return loads(self.admin.user_info(access_key=user_access_key))
+
+    def enable_user(self, user_access_key: str):
+        return self.admin.user_enable(access_key=user_access_key)
+
+    def disable_user(self, user_access_key: str):
+        return self.admin.user_disable(access_key=user_access_key)
+
+    def is_user_enabled(self, user_access_key: str) -> bool:
+        _result = False
+        _response = self.get_user_info(user_access_key=user_access_key)
+        if "status" in _response:
+            if _response["status"] == "enabled":
+                _result = True
+        return _result
+
+    def get_users(self) -> Dict[Any, Any]:
+        return loads(self.admin.user_list())
+
+    def check_user_exists(self, user_access_key: str) -> bool:
+        _result: bool = False
+        _response = self.get_users()
+        if user_access_key in _response:
+            _result = True
+        return _result
+
+    def delete_user(self, user_access_key: str) -> str:
+        return self.admin.user_remove(access_key=user_access_key)
