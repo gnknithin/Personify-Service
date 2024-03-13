@@ -10,8 +10,9 @@ import dotenv
 import yaml
 from infra.adapters.database.mongo.pymongo_adapter import PyMongoAdapter
 from infra.adapters.database.postgres.postgres_adapter import PostgresAdapter
-from infra.adapters.storage.minio_adapter import MinioAdapter
 from infra.adapters.storage.minio_admin_adapter import MinIOAdminAdapter
+from infra.adapters.storage.minio_app_user_adapter import MinIOAppUserAdapter
+from infra.adapters.storage.minio_root_adapter import MinIORootAdapter
 from infra.constants._string import (
     AlembicConstants,
     ApplicationConstants,
@@ -52,12 +53,13 @@ class ApplicationBootstrap(BaseBootstrap):
     postgres_adapter: PostgresAdapter
     mongo_adapter: PyMongoAdapter
     minio_admin_adapter: MinIOAdminAdapter
-    minio_adapter: MinioAdapter
+    minio_root_adapter: MinIORootAdapter
+    minio_app_user_adapter: MinIOAppUserAdapter
     server: Optional[HTTPServer] = None
 
     def __init__(self, bootstrap_args: Namespace) -> None:
         super().__init__(bootstrap_args=bootstrap_args)
-        dotenv.load_dotenv(dotenv.find_dotenv())
+        _ = dotenv.load_dotenv(dotenv.find_dotenv())
         self._postgres_initialization()
         self._mongo_initialization()
         self._minio_initialization()
@@ -73,26 +75,58 @@ class ApplicationBootstrap(BaseBootstrap):
             else False
         )
 
-        # _bucket: str = os.environ.get(MinioConstants.ENVVAR_MINIO_BUCKET_NAME)
+        _app_user_access_key: str = os.environ.get(
+            MinioConstants.ENVVAR_MINIO_APP_USER_ACCESS_KEY, ""
+        )
+        _app_user_secret_key: str = os.environ.get(
+            MinioConstants.ENVVAR_MINIO_APP_USER_SECRET_KEY, ""
+        )
+        _app_bucket: str = os.environ.get(MinioConstants.ENVVAR_MINIO_BUCKET_NAME, "")
 
         _server: str = f"{_host}:{_port}"
 
-        _minio_credentials = dict(
+        _minio_root_credentials = dict(
             host=_server,
             access_key=_access_key,
             secret_key=_secret_key,
             secure=_secure,
         )
+        _minio_app_user_credentials = dict(
+            host=_server,
+            access_key=_app_user_access_key,
+            secret_key=_app_user_secret_key,
+            secure=_secure,
+        )
         self.minio_admin_adapter = MinIOAdminAdapter(
-            logger=self.logger, **_minio_credentials
+            logger=self.logger, **_minio_root_credentials
         )
         _minio_msg = f"MINIO CONNECTIVITY with {_host}"
         self.logger.info(msg=f"STARTING {_minio_msg}")
+        # TODO STEP-01 Check MINIO Availability
         if self.minio_admin_adapter.check_avilability():
             self.logger.info(
                 msg=f"SUCCESSFUL {_minio_msg}",
             )
-            self.minio_adapter = MinioAdapter(logger=self.logger, **_minio_credentials)
+            # TODO STEP-02 Initialize Root Adapter
+            self.minio_root_adapter = MinIORootAdapter(
+                logger=self.logger, **_minio_root_credentials
+            )
+            # TODO STEP-03 Check App Bucket Exists
+            if self.minio_root_adapter.bucket_exists(bucket_name=_app_bucket) is False:
+                # TODO STEP-03 Create App Bucket
+                _created_app_bucket = self.minio_root_adapter.create_bucket(
+                    bucket_name=_app_bucket
+                )
+                assert _created_app_bucket is None
+            # TODO STEP-04 Check AppUser Exists
+            
+            # Check for App User Exists and if not create using ROOT Credentials
+            
+            # Check Bucket Policy and Update According to REQUIREMENT
+            # Initialize MinioAdaper using APPUSER to limit ROOT permissions
+            # self.minio_app_user_adapter = MinIOAppUserAdapter(
+            #     logger=self.logger, **_minio_app_user_credentials
+            # )
         else:
             self.logger.error(
                 msg=f"FAILED {_minio_msg}",
