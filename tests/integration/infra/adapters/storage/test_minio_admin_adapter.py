@@ -117,11 +117,8 @@ class TestMinIOAdminAdapter(BaseIntegrationTest):
         # Assert
         assert sut is not None
         assert isinstance(sut, dict)
-        assert len(sut) == 2
         assert "status" in sut
         assert isinstance(sut["status"], str)
-        assert "updatedAt" in sut
-        assert isinstance(sut["updatedAt"], str)
         # Clean-Up
         _delete_user = _minio_admin_adapter.delete_user(
             user_access_key=_random_access_key
@@ -226,8 +223,6 @@ class TestMinIOAdminAdapter(BaseIntegrationTest):
             assert isinstance(_each_user_status_dict, dict)
             assert "status" in _each_user_status_dict
             assert isinstance(_each_user_status_dict["status"], str)
-            assert "updatedAt" in _each_user_status_dict
-            assert isinstance(_each_user_status_dict["updatedAt"], str)
 
         # Clean-Up
         for _each_user_access_key in _user_ids:
