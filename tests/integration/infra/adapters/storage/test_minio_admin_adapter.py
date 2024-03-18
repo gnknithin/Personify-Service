@@ -1,8 +1,10 @@
+import os
 from random import choice
 from typing import List
 
 import pytest
 from bootstrap import ApplicationBootstrap
+from infra.constants._string import MinioConstants
 from infra.generator.identity import IdentityGenerator
 from minio.error import MinioAdminException
 
@@ -199,8 +201,13 @@ class TestMinIOAdminAdapter(BaseIntegrationTest):
         self, init_bootstrap: ApplicationBootstrap
     ) -> None:
         # Arrange
+        _app_user_access_key = os.environ.get(
+            MinioConstants.ENVVAR_MINIO_APP_USER_ACCESS_KEY
+        )
+        assert _app_user_access_key is not None
         _minio_admin_adapter = init_bootstrap.minio_admin_adapter
         _user_ids: List[str] = list()
+        _user_ids.append(_app_user_access_key)
         for _ in range(10):
             _random_access_key = f"{IdentityGenerator().get_random_id()}"
             _random_secret_key = f"{IdentityGenerator().get_random_id()}"
