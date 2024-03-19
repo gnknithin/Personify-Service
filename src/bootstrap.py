@@ -102,31 +102,42 @@ class ApplicationBootstrap(BaseBootstrap):
         )
         _minio_msg = f"MINIO CONNECTIVITY with {_host}"
         self.logger.info(msg=f"STARTING {_minio_msg}")
-        # TODO STEP-01 Check MINIO Availability
+        # STEP-01 Check MINIO Availability
         if self.minio_admin_adapter.check_avilability():
             self.logger.info(
                 msg=f"SUCCESSFUL {_minio_msg}",
             )
-            # TODO STEP-02 Initialize Root Adapter
+            # STEP-02 Initialize Root Adapter
             self.minio_root_adapter = MinIORootAdapter(
                 logger=self.logger, **_minio_root_credentials
             )
-            # TODO STEP-03 Check App Bucket Exists
+            # STEP-03 Check App Bucket Exists
             if self.minio_root_adapter.bucket_exists(bucket_name=_app_bucket) is False:
                 # TODO STEP-03 Create App Bucket
                 _created_app_bucket = self.minio_root_adapter.create_bucket(
                     bucket_name=_app_bucket
                 )
                 assert _created_app_bucket is None
-            # TODO STEP-04 Check AppUser Exists
-            
-            # Check for App User Exists and if not create using ROOT Credentials
-            
+            # STEP-04 Check AppUser Exists
+            if (
+                self.minio_admin_adapter.check_user_exists(
+                    user_access_key=_app_user_access_key
+                )
+                is False
+            ):
+                _created_app_user = self.minio_admin_adapter.add_user(
+                    user_access_key=_app_user_access_key,
+                    user_secret_key=_app_user_secret_key,
+                )
+                assert _created_app_user is not None
+            # Step-04 Initialize MinIOAppUserAdapter using APPUSER to limit ROOT permissions
+            self.minio_app_user_adapter = MinIOAppUserAdapter(
+                logger=self.logger, **_minio_app_user_credentials
+            )
+            # TODO Check PersonifyAppUserGroup Exists OR Create PersonifyAppUserGroup and add Policy to it
+            # TODO Check PersonifyAppUserPolicy Exists OR Create PersonifyAppUserPolicy
             # Check Bucket Policy and Update According to REQUIREMENT
-            # Initialize MinioAdaper using APPUSER to limit ROOT permissions
-            # self.minio_app_user_adapter = MinIOAppUserAdapter(
-            #     logger=self.logger, **_minio_app_user_credentials
-            # )
+            # https://min.io/docs/minio/container/administration/identity-access-management/policy-based-access-control.html#policy-document-structure
         else:
             self.logger.error(
                 msg=f"FAILED {_minio_msg}",
