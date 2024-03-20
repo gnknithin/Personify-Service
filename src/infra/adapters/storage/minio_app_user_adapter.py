@@ -22,5 +22,11 @@ class MinIOAppUserAdapter(BaseStorageAdapter):
     def client(self) -> Minio:
         return self._client
 
-    # def create_object(self, bucket_name: str, object_name: str, data: str):
-    #     return self.client.put_object()
+    def create_object(self, bucket_name: str, object_name: str, data: str):
+        # https://min.io/docs/minio/linux/developers/python/API.html#put_object
+        ...
+
+    def delete_object(self, bucket_name: str, object_name: str):
+        return self.client.remove_object(
+            bucket_name=bucket_name, object_name=object_name, version_id=None
+        )
