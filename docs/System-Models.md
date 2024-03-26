@@ -1,4 +1,4 @@
-::: mermaid
+```mermaid
 classDiagram
     BaseSQLIdModel <|-- UserModel
     class UserModel {
@@ -32,4 +32,4 @@ classDiagram
         +created_at Datetime
         +updated_at Datetime
     }
-:::
+```
