@@ -26,15 +26,14 @@ class BaseUnitTest(ABC):
 
     @pytest.fixture(autouse=True)
     def setup_boostrap(self) -> UnitTestFakeBootstrap:
-        args = ['-c', './configs/development.yaml']
+        args = ["-c", "./configs/development.yaml"]
         return UnitTestFakeBootstrap(
             bootstrap_args=ArgumentParser.parse_arguments(input_args=args)
         )
 
     @pytest.fixture(autouse=True)
     def init_bootstrap(
-        self,
-        setup_boostrap: UnitTestFakeBootstrap
+        self, setup_boostrap: UnitTestFakeBootstrap
     ) -> UnitTestFakeBootstrap:
         return setup_boostrap
 
@@ -44,15 +43,14 @@ class BaseIntegrationTest(ABC):
 
     @pytest.fixture(autouse=True)
     def setup_boostrap(self) -> IntegrationTestFakeContainer:
-        args = ['-c', './configs/test.yaml']
+        args = ["-c", "./configs/test.yaml"]
         return IntegrationTestFakeContainer(
             bootstrap_args=ArgumentParser.parse_arguments(input_args=args)
         )
 
     @pytest.fixture(autouse=True)
     def init_bootstrap(
-        self,
-        setup_boostrap: IntegrationTestFakeContainer
+        self, setup_boostrap: IntegrationTestFakeContainer
     ) -> IntegrationTestFakeContainer:
         return setup_boostrap
 
@@ -63,7 +61,7 @@ class MainApplicationTestSetup(AsyncHTTPTestCase):
     bootstrap = None
 
     def get_app(self) -> MainApplication:
-        args = ['-p', '8888', '-c', './configs/test.yaml']
+        args = ["-p", "8888", "-c", "./configs/test.yaml"]
         self.bootstrap = ApplicationBootstrap(
             bootstrap_args=ArgumentParser.parse_arguments(input_args=args)
         )
@@ -75,16 +73,15 @@ class MainApplicationTestSetup(AsyncHTTPTestCase):
         return instance
 
     def get_user_service(self) -> UserService:
-        return UserServiceFactory(
-            bootstrap=self.bootstrap
-        ).build(scope=self.SCOPE)
+        return UserServiceFactory(bootstrap=self.bootstrap).build(scope=self.SCOPE)
 
     def get_contact_service(self) -> ContactService:
-        return ContactServiceFactory(
-            bootstrap=self.bootstrap
-        ).build(scope=self.SCOPE)
+        return ContactServiceFactory(bootstrap=self.bootstrap).build(scope=self.SCOPE)
 
     def _get_headers(self) -> Dict[Any, Any]:
         _headers: Dict[Any, Any] = dict()
         _headers[HttpConstants.HEADER_CONTENT_TYPE] = HttpConstants.MIME_TYPE_JSON
         return _headers
+
+    def runTest(self) -> None:
+        pass
