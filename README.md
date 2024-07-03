@@ -74,6 +74,18 @@ MINIO_APP_USER_SECRET_KEY=appuserdevenv123
 docker-compose -f ./docker-compose.dev.yml up -d --force-recreate --renew-anon-volumes
 ```
 
+### Validate Dev-Infrastructure:
+
+## Check [![Home - PostgresDB Admin](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](http://localhost:8081) DB Admin UI Access
+```
+URL=http://localhost:8080
+SYSTEM=PostgreSQL
+SERVER=personify-postgres-db
+USERNAME=personifydev
+PASSWORD=testenv123
+DATABASE=personify
+```
+
 #### To Run Server:
 ```
 python3 src/server.py -p 8888 -c ./configs/development.yaml -d
