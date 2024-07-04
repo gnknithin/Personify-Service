@@ -86,6 +86,11 @@ PASSWORD=testenv123
 DATABASE=personify
 ```
 
+## Check [![Home - Mongo Express](https://img.shields.io/badge/-MongoDB-13aa52?style=for-the-badge&logo=mongodb&logoColor=white)](http://localhost:8081) DB UI Access
+```
+URL=http://localhost:8081
+```
+
 #### To Run Server:
 ```
 python3 src/server.py -p 8888 -c ./configs/development.yaml -d
