@@ -91,6 +91,13 @@ DATABASE=personify
 URL=http://localhost:8081
 ```
 
+## Check [![MinIO](https://miro.medium.com/v2/resize:fit:80/0*Ev_4QnYTqOQJysYJ.png)](http://localhost:9001) UI Access
+```
+URL=http://localhost:9001
+USERNAME=personifydev
+PASSWORD=testenv123
+```
+
 #### To Run Server:
 ```
 python3 src/server.py -p 8888 -c ./configs/development.yaml -d
