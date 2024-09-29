@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Personify - Welcome{% end %}
+
+{% block body %}
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <h1 style="text-align: center; color: black">Hello</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <h1 style="text-align: center;color: black;">Welcome</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <h1 style="text-align: center;color: black;">To</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <h1 style="text-align: center;color: blue">Personify</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-6 mx-auto">
+            <div class="d-flex align-items-center justify-content-evenly">
+                <!-- Register As User -->
+                <a href="{{reverse_url('RegisterRequestHandler')}}" class="btn btn-outline-dark" role="button">Register</a>
+                <!-- Login As User -->
+                <a href="{{reverse_url('LoginRequestHandler')}}" class="btn btn-outline-dark" role="button">Login</a>
+                <!-- Login As Admin -->
+                <a href="{{reverse_url('AdminRequestHandler')}}" class="btn btn-outline-dark" role="button">Admin</a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <h1 style="text-align: center;color: black;">Space to Save!</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <h1 style="text-align: center;color: black;">Keeping things Simple!</h1>
+        </div>
+    </div>
+</div>
+{% end %}

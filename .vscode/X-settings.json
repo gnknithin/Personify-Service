@@ -1,0 +1,52 @@
+{
+    // "makefile.additionalCompilerNames": [],
+    // "makefile.alwaysPostConfigure": false,
+    // "makefile.alwaysPreConfigure": false,
+    // "makefile.buildBeforeLaunch": true,
+    // "makefile.buildLog": null,
+    // "makefile.clearOutputBeforeBuild": true,
+    // "makefile.compileCommandsPath": null,
+    // "makefile.configurationCachePath": null,
+    // "makefile.configurations": [],
+    // "makefile.configureAfterCommand": true,
+    // "makefile.configureOnEdit": true,
+    // "makefile.configureOnOpen": true,
+    // "makefile.defaultLaunchConfiguration": null,
+    // "makefile.dryrunSwitches": [
+    //     "--always-make",
+    //     "--keep-going",
+    //     "--print-directory"
+    // ],
+    // "makefile.excludeCompilerNames": [],
+    // "makefile.extensionLog": null,
+    // "makefile.extensionOutputFolder": null,
+    // "makefile.ignoreDirectoryCommands": true,
+    // "makefile.launchConfigurations": [],
+    // "makefile.loggingLevel": "Verbose",
+    // "makefile.makeDirectory": "${workspaceFolder}",
+    // "makefile.makefilePath": "${workspaceFolder}/Makefile",
+    // "makefile.makePath": "make",
+    // "makefile.panel.visibility": null,
+    // "makefile.phonyOnlyTargets": false,
+    // "makefile.postConfigureArgs": [],
+    // "makefile.postConfigureScript": null,
+    // "makefile.preConfigureArgs": [],
+    // "makefile.preConfigureScript": null,
+    // "makefile.saveBeforeBuildOrConfigure": true,
+
+
+    // "mypy.configFile": "mypy.ini",
+    // "mypy.debugLogging": true,
+    // "mypy.dmypyExecutable": "${workspaceFolder}/.venv/bin/dmypy",
+    // "mypy.enabled": true,
+    // "mypy.extraArguments": [],
+    // "mypy.runUsingActiveInterpreter": true,
+    // "mypy.targets": [
+    //     "src",
+    //     "tests"
+    // ],
+
+
+
+
+}

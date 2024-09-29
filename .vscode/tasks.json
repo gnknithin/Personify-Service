@@ -1,0 +1,62 @@
+
+{
+    // https://code.visualstudio.com/docs/editor/tasks
+    // https://code.visualstudio.com/docs/editor/tasks-appendix#_schema-for-tasksjson
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Mypy Check",
+            "type": "shell",
+            "command": "mypy",
+            "args": [
+                "--config-file",
+                "mypy.ini",  // Optional: Specify your mypy config file if needed
+                "."          // Specify the directory or files to check
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": ["$tsc"],
+            "detail": "Run mypy type checker"
+        },
+        {
+            "label": "Ruff Check",
+            "type": "shell",
+            "command": "ruff",
+            "args": [
+                "check",
+                ".",
+                "--config",
+                "ruff.toml"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                {
+                    "owner": "ruff",
+                    "fileLocation": ["relative", "${workspaceFolder}"],
+                    "pattern": [
+                        {
+                            "regexp": "^(.+?):(\\d+):(\\d+):\\s+(.*)$",
+                            "file": 1,
+                            "line": 2,
+                            "column": 3,
+                            "message": 4
+                        }
+                    ]
+                }
+            ],
+            "presentation": {
+                "reveal": "always",
+                "focus": true,
+                "echo": true,
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "detail": "Run Ruff Checker"
+        }
+    ]
+}

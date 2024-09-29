@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Tornado Server",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/personify",
+            "args": [
+                "-p",
+                "8888",
+                "-d",
+            ],
+            "console": "integratedTerminal",
+        }
+    ]
+}
